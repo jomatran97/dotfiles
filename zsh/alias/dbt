@@ -1,0 +1,2 @@
+alias dbt_lineage="dbt docs generate && dbt  docs serve"
+alias compile="dbt compile -s"

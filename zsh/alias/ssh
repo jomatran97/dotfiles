@@ -1,0 +1,10 @@
+__keygen(){
+    local email=$1
+    local name=$2
+    if [] | []; then
+        echo "Wrong command!!!!"
+        echo "Usage: __keygen [email] [name]"
+    else
+        ssh-keygen -t ed25519 -C "$email" -f "$name"
+    fi
+}

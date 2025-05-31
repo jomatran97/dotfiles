@@ -1,0 +1,14 @@
+bat/themes
+thefuck/__pycache__
+nvim/lazy-lock.json
+raycast
+iterm2
+github-copilot
+brewapp/Brewfile.lock.json
+tmux/plugins/*
+alacritty/themes
+*.DS_Store
+git-config/git_datum
+git-config/git_sbc
+uv
+filezilla

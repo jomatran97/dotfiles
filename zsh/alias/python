@@ -1,0 +1,29 @@
+alias py_format="black --line-length=120 --target-version=py37"
+
+__install_python(){
+    local python_version=$1
+    local is_global=$2
+    pyenv install $python_version
+    if [  "$is_global" = "yes" ]; then
+        echo "--> Select global python: $python_version "
+        pyenv global $python_version
+    fi
+}
+
+__venv(){
+    local python_version=$2
+    local venv=$1
+    if [ -z $python_version ]; then
+        pyenv virtualenv $(pyenv global) $venv
+    else
+        echo "--> Create virtual environment for python version: $python_version"
+        pyenv virtualenv $python_version $venv
+    fi
+}
+alias pip_install="pip install --no-compile"
+alias vactivate="pyenv activate"
+alias vdeactivate="source deactivate"
+alias vdelete="pyenv virtualenv-delete"
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
