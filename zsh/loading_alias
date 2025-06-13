@@ -15,7 +15,7 @@ alias code_base="cd ${HOME}/Documents/code_base"
 alias cat="bat"
 
 alias docs="tldr"
-alias please="sudo"
+alias pls="sudo"
 
 mkcd() { mkdir -p "$1" && cd "$1"; }
 

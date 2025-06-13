@@ -7,6 +7,8 @@
 [includeif "gitdir:/Users/joma/Documents/code_base/projects/tp_bank/"]
   path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_datum
 
+[includeif "gitdir:/Users/joma/Documents/code_base/projects/iotgrp/"]
+  path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_iotgrp
 [core]
     pager = delta
 	excludesfile = /Users/haitran/.gitignore_global

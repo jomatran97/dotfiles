@@ -10,5 +10,6 @@ alacritty/themes
 *.DS_Store
 git-config/git_datum
 git-config/git_sbc
+git-config/git_iotgrp
 uv
 filezilla
