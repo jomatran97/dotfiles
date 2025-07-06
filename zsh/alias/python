@@ -12,4 +12,4 @@ __venv(){
 }
 alias vactivate="conda deactivate && conda activate"
 alias vdeactivate="conda deactivate"
-alias cinstall="conda install"
+alias cinstall="conda install --channel conda-forge"

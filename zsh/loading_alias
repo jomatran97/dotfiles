@@ -2,7 +2,7 @@ source ${HOME}/.config/zsh/alias/dbt
 source ${HOME}/.config/zsh/alias/git
 source ${HOME}/.config/zsh/alias/python
 
-alias cls="python3 ${HOME}/Documents/code_base/personal/codefun/Automation/clean.py"
+alias cls="python3 ${HOME}/Documents/code_base/personal/code/PythonCode/Automation/clean.py"
 
 # Quickly change code folder
 alias regrep="cd ${HOME}/Documents/code_base/projects/sbc/regrep"
