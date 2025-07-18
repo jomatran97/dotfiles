@@ -1,2 +1,1 @@
 source ${HOME}/.config/zsh/configs/fzf
-source ${HOME}/.config/zsh/configs/yazi

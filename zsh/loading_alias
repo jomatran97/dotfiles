@@ -1,14 +1,14 @@
 source ${HOME}/.config/zsh/alias/dbt
 source ${HOME}/.config/zsh/alias/git
-source ${HOME}/.config/zsh/alias/python
 
 alias cls="python3 ${HOME}/Documents/code_base/personal/code/PythonCode/Automation/clean.py"
 
 # Quickly change code folder
-alias regrep="cd ${HOME}/Documents/code_base/projects/sbc/regrep"
-alias personal="cd ${HOME}/Documents/code_base/personal"
-alias tp="cd ${HOME}/Documents/code_base/projects/tp_bank"
-alias code_base="cd ${HOME}/Documents/code_base"
+alias regrep="cd ${HOME}/Documents/work/sbc/code"
+alias codebase="cd ${HOME}/Documents/personal/code"
+alias tp="cd ${HOME}/Documents/work/tp/code"
+alias iot="cd ${HOME}/Documents/work/iotgrp/code"
+alias alpha="cd ${HOME}/Documents/work/alpha/code"
 
 
 # export BAT_THEME=tokyonight_night
@@ -16,7 +16,3 @@ alias cat="bat"
 
 alias docs="tldr"
 alias pls="sudo"
-
-mkcd() { mkdir -p "$1" && cd "$1"; }
-
-
