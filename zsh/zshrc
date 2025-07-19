@@ -55,4 +55,12 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 # fastfetch
 # fi
 #
-#
+# Auto-deactivate virtual environment when changing directories
+chpwd() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        # Check if we're still in a subdirectory of the virtual environment
+        if [[ "$PWD"/ != "$VIRTUAL_ENV"/* ]] && [[ "$PWD" != "$VIRTUAL_ENV" ]]; then
+            deactivate
+        fi
+    fi
+}

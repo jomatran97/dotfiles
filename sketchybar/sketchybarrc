@@ -62,16 +62,14 @@ sketchybar  --bar "${bar[@]}" --default "${defaults[@]}"
 
 # Left
 source "$ITEM_DIR/spaces.sh"
-source "$ITEM_DIR/yabai.sh"
+source "$ITEM_DIR/front_app.sh"
 
 # Right
-source "$ITEM_DIR/front_app.sh"
 source "$ITEM_DIR/calendar.sh"
 
 sketchybar --add alias "TextInputMenuAgent,Item-0" right \
            --set "TextInputMenuAgent,Item-0" padding_left=0 padding_right=10 label.width=0 update_freq=1
 
-source "$ITEM_DIR/wifi.sh"
 source "$ITEM_DIR/battery.sh"
 source "$ITEM_DIR/volume.sh"
 
