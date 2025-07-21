@@ -1,14 +1,14 @@
-[includeif "gitdir:/Users/joma/Documents/code_base/projects/sbc/"]
-  path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_sbc
+[includeif "gitdir:/Users/joma/Documents/work/sbc/"]
+  path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_sbc
 
-[includeif "gitdir:/Users/joma/Documents/code_base/personal/"]
-  path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_personal
+[includeif "gitdir:/Users/joma/Documents/personal/"]
+  path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_personal
 
-[includeif "gitdir:/Users/joma/Documents/code_base/projects/tp_bank/"]
-  path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_datum
+[includeif "gitdir:/Users/joma/Documents/work/tp_bank/"]
+  path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_datum
 
-[includeif "gitdir:/Users/joma/Documents/code_base/projects/iotgrp/"]
-  path = /Users/joma/Documents/code_base/personal/codefun/Dotfiles/git-config/git_iotgrp
+[includeif "gitdir:/Users/joma/Documents/work/iotgrp/"]
+  path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_iotgrp
 [core]
     pager = delta
 	excludesfile = /Users/haitran/.gitignore_global
