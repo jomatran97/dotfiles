@@ -1,4 +1,4 @@
-rhturn({
+return {
 	"phaazon/hop.nvim",
 	branch = "v2", -- optional but strongly recommended
 	config = function()
@@ -10,4 +10,4 @@ rhturn({
 			{ "<leader>hw", "<cmd>HopPattern<cr>", desc = "Jump by word" },
 		})
 	end,
-})
+}

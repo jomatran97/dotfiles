@@ -110,7 +110,8 @@ alt-c = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 alt-a = 'exec-and-forget open -a /Applications/Arc.app'
 alt-m = 'exec-and-forget open -a /Applications/Firefox.app'
 alt-t = 'exec-and-forget open -a /Applications/Microsoft\ Teams.app'
-alt-d = 'exec-and-forget open -a /Applications/DBeaver.app'
+alt-d = 'exec-and-forget open -a /Applications/Claude.app'
+alt-p = 'exec-and-forget open -a /Applications/1Password.app'
 
 # See: https://nikitabobko.github.ioeAeroSpace/commands#layout
 alt-e = 'layout tiles horizontal vertical'
@@ -204,16 +205,19 @@ run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id ='com.spotify.client'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id ='md.obsidian'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id ='com.anthropic.claudefordesktop'
-run = ['move-node-to-workspace 5']
+run = ['move-node-to-workspace 4']
 
+[[on-window-detected]]
+if.app-id ='com.1password.1password'
+run = ['move-node-to-workspace 4']
 # force certain workspaces to certain monitors
 [workspace-to-monitor-force-assignment]
 1 = 'main'                         # Monitor sequence number from left to right. 1-based indexing
