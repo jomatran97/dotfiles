@@ -7,7 +7,8 @@ return {
 		local wk = require("which-key")
 		wk.add({
 			{ "<leader>h", group = "Hop" },
-			{ "<leader>hw", "<cmd>HopPattern<cr>", desc = "Jump by word" },
+			{ "<leader>hw", "<cmd>HopPattern<cr>", desc = "[H]op by word" },
+			{ "<leader>hl", "<cmd>HopChar1<cr>", desc = "[H]op by letter" },
 		})
 	end,
 }
