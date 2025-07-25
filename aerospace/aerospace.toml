@@ -71,7 +71,7 @@ inner.vertical = 8
 outer.bottom = 5
 outer.top = [{ monitor.LU28R55 = 45},{ monitor.secondary = 36}, { monitor.main = 5}, 3]
 outer.right = 5
-outer.left = 5
+outer.left = 7
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -106,8 +106,7 @@ outer.left = 5
 # App shortcuts
 alt-g = 'exec-and-forget open -a /Applications/Ghostty.app'
 alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
-alt-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
-alt-c = 'exec-and-forget open -a /Applications/OrbStack.app'
+alt-c = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 alt-a = 'exec-and-forget open -a /Applications/Arc.app'
 alt-m = 'exec-and-forget open -a /Applications/Firefox.app'
 alt-t = 'exec-and-forget open -a /Applications/Microsoft\ Teams.app'
