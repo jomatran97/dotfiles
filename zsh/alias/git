@@ -8,4 +8,5 @@ alias gm='git merge'
 alias gp='git push'
 alias gst='git status'
 alias grs='git restore'
-
+alias gc="git commit -m"
+alias gca="git commit -a -m"
