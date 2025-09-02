@@ -1,7 +1,7 @@
 source ${HOME}/.config/zsh/alias/dbt
 source ${HOME}/.config/zsh/alias/git
 
-alias cls="python3 ${HOME}/Documents/code_base/personal/code/PythonCode/Automation/clean.py"
+alias cls="python3 ${HOME}/Documents/personal/code/python/automation/clean.py"
 
 # Quickly change code folder
 alias regrep="cd ${HOME}/Documents/work/sbc/code"
@@ -9,6 +9,7 @@ alias codebase="cd ${HOME}/Documents/personal/code"
 alias tp="cd ${HOME}/Documents/work/tp/code"
 alias iot="cd ${HOME}/Documents/work/iotgrp/code"
 alias alpha="cd ${HOME}/Documents/work/alpha/code"
+alias datum="cd ${HOME}/Documents/work/datum/code"
 
 
 # export BAT_THEME=tokyonight_night

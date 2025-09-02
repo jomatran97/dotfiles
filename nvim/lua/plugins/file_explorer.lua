@@ -333,6 +333,7 @@ return {
 									["<S-CR>"] = "close_keep_filter",
 									["<C-CR>"] = "close_clear_filter",
 									["<esc>"] = "close",
+									["q"] = "close",
 								},
 							},
 							-- ["<esc>"] = "noop", -- if you want to use normal mode

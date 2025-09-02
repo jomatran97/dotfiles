@@ -1,12 +1,15 @@
 alias lg="lazygit"
 alias gl="git log --graph --pretty=format:'%C(auto)%h%d%Creset %C(cyan)(%cr)%Creset %C(green)%cn <%ce>%Creset %s'"
-alias ga='git add'
+alias ggpull='git pull origin "$(git_current_branch)"'
 alias gco='git checkout'
-alias gclean='git clean --interactive -d'
-alias gd='git diff'
-alias gm='git merge'
+alias gc='git commit --verbose'
+alias ga='git add'
 alias gp='git push'
-alias gst='git status'
+alias grb='git rebase'
 alias grs='git restore'
-alias gc="git commit -m"
-alias gca="git commit -a -m"
+alias gclean='git clean --interactive -d'
+function git_current_branch() {
+  git branch --show-current 2>/dev/null
+}
+alias gst='git status'
+alias gm='git merge'

@@ -106,7 +106,7 @@ outer.left = 7
 # App shortcuts
 alt-g = 'exec-and-forget open -a /Applications/Ghostty.app'
 alt-o = 'exec-and-forget open -a /Applications/Obsidian.app'
-alt-c = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
+alt-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Code.app'
 alt-a = 'exec-and-forget open -a /Applications/Arc.app'
 alt-m = 'exec-and-forget open -a /Applications/Firefox.app'
 alt-t = 'exec-and-forget open -a /Applications/Microsoft\ Teams.app'
@@ -186,7 +186,7 @@ run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id ='com.microsoft.Outlook'
-run = ['move-node-to-workspace 1']
+run = ['move-node-to-workspace 6']
 
 [[on-window-detected]]
 if.app-id ='com.mitchellh.ghostty'
@@ -214,7 +214,11 @@ run = ['move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-id ='com.1password.1password'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace 7']
+
+[[on-window-detected]]
+if.app-id ='com.cisco.secureclient.gui'
+run = ['move-node-to-workspace 7']
 
 [[on-window-detected]]
 if.app-id ='com.anthropic.claudefordesktop'
@@ -222,15 +226,15 @@ run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id ='com.apple.finder'
-run = ['move-node-to-workspace 6']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id ='com.apple.MobileSMS'
-run = ['move-node-to-workspace 6']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id ='com.tuyenmai.openkey'
-run = ['move-node-to-workspace 6']
+run = ['move-node-to-workspace 1']
 
 [[on-window-detected]]
 if.app-id ='com.apple.systempreferences'

@@ -1,2 +1,4 @@
+# dbt aliases
+alias dbtf=/Users/joma/.local/bin/dbt
 alias dbt_lineage="dbt docs generate --static && dbt  docs serve"
 alias compile="dbt compile -s"

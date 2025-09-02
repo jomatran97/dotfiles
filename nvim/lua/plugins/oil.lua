@@ -32,6 +32,7 @@ return {
 		},
 		keymaps = {
 			["q"] = { "actions.close", mode = "n" },
+			["<esc>"] = { "actions.close", mode = "n" },
 		},
 	},
 	dependencies = { { "echasnovski/mini.icons", opts = {} } },
