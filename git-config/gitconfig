@@ -7,6 +7,9 @@
 [includeif "gitdir:/Users/joma/Documents/work/tp_bank/"]
   path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_datum
 
+[includeif "gitdir:/Users/joma/Documents/work/alpha/code/"]
+  path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_alpha
+
 [includeif "gitdir:/Users/joma/Documents/work/iotgrp/"]
   path = /Users/joma/Documents/personal/code/dotfiles/git-config/git_iotgrp
 [core]
