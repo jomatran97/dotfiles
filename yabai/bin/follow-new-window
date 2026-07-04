@@ -1,0 +1,232 @@
+#!/bin/sh
+
+set -eu
+
+PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+
+window_id="${YABAI_WINDOW_ID:-${1:-}}"
+
+[ -n "$window_id" ] || exit 0
+
+json_get() {
+  json_input=$1
+  json_path=$2
+
+  if command -v jq >/dev/null 2>&1; then
+    printf '%s' "$json_input" | jq -r --arg json_path "$json_path" '
+      def fetch($path):
+        reduce ($path | split("."))[] as $segment (.;
+          if . == null or (type != "object") or (has($segment) | not) then
+            null
+          else
+            .[$segment]
+          end
+        );
+      fetch($json_path) // empty
+    '
+  elif command -v python3 >/dev/null 2>&1; then
+    JSON_PATH="$json_path" python3 -c '
+import json, os, sys
+value = json.load(sys.stdin)
+for part in os.environ["JSON_PATH"].split("."):
+    if not isinstance(value, dict) or part not in value:
+        value = ""
+        break
+    value = value[part]
+if isinstance(value, bool):
+    sys.stdout.write("true" if value else "false")
+elif isinstance(value, float) and value.is_integer():
+    sys.stdout.write(str(int(value)))
+elif value is None or value == "":
+    pass
+else:
+    sys.stdout.write(str(value))
+'
+  else
+    JSON_INPUT="$json_input" JSON_PATH="$json_path" /usr/bin/osascript -l JavaScript <<'JXA'
+ObjC.import("Foundation");
+const env = $.NSProcessInfo.processInfo.environment;
+const jsonText = ObjC.unwrap(env.objectForKey("JSON_INPUT"));
+const path = ObjC.unwrap(env.objectForKey("JSON_PATH")).split(".");
+let value = JSON.parse(jsonText);
+for (const segment of path) {
+  if (!value || typeof value !== "object" || !(segment in value)) {
+    value = "";
+    break;
+  }
+  value = value[segment];
+}
+if (typeof value === "boolean") {
+  console.log(value ? "true" : "false");
+} else if (value === null || value === undefined || value === "") {
+  console.log("");
+} else {
+  console.log(String(value));
+}
+JXA
+  fi
+}
+
+normalize_integer() {
+  value=$1
+
+  case "$value" in
+    *.*)
+      value=${value%%.*}
+      ;;
+  esac
+
+  case "$value" in
+    ''|-|*[!0-9-]*)
+      return 1
+      ;;
+    *)
+      printf '%s' "$value"
+      return 0
+      ;;
+  esac
+}
+
+config_integer_or_zero() {
+  key=$1
+  value=$(yabai -m config "$key" 2>/dev/null || true)
+  normalize_integer "$value" || printf '0'
+}
+
+external_bar_offsets() {
+  external_bar=$(yabai -m config external_bar 2>/dev/null || true)
+  bar_top=0
+  bar_bottom=0
+
+  case "$external_bar" in
+    ''|off)
+      printf '0 0'
+      return 0
+      ;;
+  esac
+
+  old_ifs=$IFS
+  IFS=:
+  set -- $external_bar
+  IFS=$old_ifs
+
+  if [ "$#" -ge 2 ]; then
+    bar_top=$(normalize_integer "$2" || printf '0')
+  fi
+
+  if [ "$#" -ge 3 ]; then
+    bar_bottom=$(normalize_integer "$3" || printf '0')
+  fi
+
+  printf '%s %s' "$bar_top" "$bar_bottom"
+}
+
+wait_for_window_json() {
+  attempts=0
+  last_json=""
+  stable_space=""
+  stable_count=0
+
+  while [ "$attempts" -lt 40 ]; do
+    if json=$(yabai -m query --windows --window "$window_id" 2>/dev/null); then
+      last_json=$json
+      current_space=$(json_get "$json" "space")
+
+      case "$current_space" in
+        ''|0)
+          stable_space=""
+          stable_count=0
+          ;;
+        *)
+          if [ "$current_space" = "$stable_space" ]; then
+            stable_count=$((stable_count + 1))
+          else
+            stable_space=$current_space
+            stable_count=0
+          fi
+
+          if [ "$stable_count" -ge 1 ]; then
+            printf '%s' "$json"
+            return 0
+          fi
+          ;;
+      esac
+    fi
+
+    attempts=$((attempts + 1))
+    sleep 0.05
+  done
+
+  [ -n "$last_json" ] && printf '%s' "$last_json"
+}
+
+center_floating_window() {
+  current_display=$1
+  current_window_json=$2
+
+  display_json=$(yabai -m query --displays --display "$current_display" 2>/dev/null || true)
+  [ -n "$display_json" ] || return 0
+
+  display_x=$(normalize_integer "$(json_get "$display_json" "frame.x")" || true)
+  display_y=$(normalize_integer "$(json_get "$display_json" "frame.y")" || true)
+  display_w=$(normalize_integer "$(json_get "$display_json" "frame.w")" || true)
+  display_h=$(normalize_integer "$(json_get "$display_json" "frame.h")" || true)
+
+  window_w=$(normalize_integer "$(json_get "$current_window_json" "frame.w")" || true)
+  window_h=$(normalize_integer "$(json_get "$current_window_json" "frame.h")" || true)
+
+  [ -n "$display_x" ] || return 0
+  [ -n "$display_y" ] || return 0
+  [ -n "$display_w" ] || return 0
+  [ -n "$display_h" ] || return 0
+  [ -n "$window_w" ] || return 0
+  [ -n "$window_h" ] || return 0
+
+  left_padding=$(config_integer_or_zero left_padding)
+  right_padding=$(config_integer_or_zero right_padding)
+  top_padding=$(config_integer_or_zero top_padding)
+  bottom_padding=$(config_integer_or_zero bottom_padding)
+
+  set -- $(external_bar_offsets)
+  bar_top=$1
+  bar_bottom=$2
+
+  usable_x=$((display_x + left_padding))
+  usable_y=$((display_y + top_padding + bar_top))
+  usable_w=$((display_w - left_padding - right_padding))
+  usable_h=$((display_h - top_padding - bottom_padding - bar_top - bar_bottom))
+
+  [ "$usable_w" -gt 0 ] || return 0
+  [ "$usable_h" -gt 0 ] || return 0
+  [ "$window_w" -gt 0 ] || return 0
+  [ "$window_h" -gt 0 ] || return 0
+
+  target_x=$((usable_x + (usable_w - window_w) / 2))
+  target_y=$((usable_y + (usable_h - window_h) / 2))
+
+  yabai -m window "$window_id" --move abs:"$target_x":"$target_y" >/dev/null 2>&1 || true
+}
+
+window_json=$(wait_for_window_json || true)
+[ -n "$window_json" ] || exit 0
+
+current_space=$(json_get "$window_json" "space")
+current_display=$(json_get "$window_json" "display")
+is_floating=$(json_get "$window_json" "is-floating")
+is_sticky=$(json_get "$window_json" "is-sticky")
+
+if [ "$is_sticky" != "true" ]; then
+  if [ -n "$current_display" ] && [ "$current_display" != "0" ]; then
+    yabai -m display --focus "$current_display" >/dev/null 2>&1 || true
+  fi
+
+  if [ -n "$current_space" ] && [ "$current_space" != "0" ]; then
+    yabai -m space --focus "$current_space" >/dev/null 2>&1 || true
+  fi
+fi
+
+if [ "$is_floating" = "true" ] && [ "$is_sticky" != "true" ] && [ -n "$current_display" ] && [ "$current_display" != "0" ]; then
+  center_floating_window "$current_display" "$window_json"
+fi
+
+yabai -m window --focus "$window_id" >/dev/null 2>&1 || true

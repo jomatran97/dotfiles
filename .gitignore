@@ -1,0 +1,22 @@
+# Arbiter runtime data
+logs/**
+!logs/
+!logs/.gitkeep
+state/**
+!state/
+!state/.gitkeep
+
+# Local dotfiles debug / scratch artifacts
+.DS_Store
+tmp/
+.tmp-*/
+.pi-antigravity-research-tmp/
+nvim/trace_*.txt
+nvim/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+# Local pi agent state
+.pi/

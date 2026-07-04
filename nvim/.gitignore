@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+
+# Neovim runtime artifacts (should never live in the config dir, but just in case)
+spell/
+shada/
+*.shada

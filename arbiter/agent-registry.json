@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Arbiter",
+    "provider": "claude",
+    "model": "claude-sonnet-4",
+    "markdown": "claude/agents/arbiter.md",
+    "purpose": "Own Arbiter-level coordination and policy decisions.",
+    "required_mapping": "Arbiter -> Claude Sonnet"
+  },
+  {
+    "name": "plan",
+    "provider": "claude",
+    "model": "claude-sonnet-4",
+    "markdown": "claude/agents/plan.md",
+    "purpose": "Own the forward plan and updated-plan revisions."
+  },
+  {
+    "name": "research",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/research.md",
+    "purpose": "Gather and verify provider/platform research."
+  },
+  {
+    "name": "requirements",
+    "provider": "claude",
+    "model": "claude-sonnet-4",
+    "markdown": "claude/agents/requirements.md",
+    "purpose": "Clarify and validate requirements before implementation."
+  },
+  {
+    "name": "design",
+    "provider": "claude",
+    "model": "claude-sonnet-4",
+    "markdown": "claude/agents/design.md",
+    "purpose": "Shape interfaces and system boundaries."
+  },
+  {
+    "name": "implement",
+    "provider": "codex",
+    "model": "gpt-5.5-codex",
+    "markdown": "codex/agents/implement.md",
+    "purpose": "Implement validated changes in the workspace."
+  },
+  {
+    "name": "build",
+    "provider": "codex",
+    "model": "gpt-5.5-codex",
+    "markdown": "codex/agents/build.md",
+    "purpose": "Rebuild after reflection or escalation planning.",
+    "required_mapping": "build/debug -> GPT-5.5 Codex"
+  },
+  {
+    "name": "verify",
+    "provider": "codex",
+    "model": "gpt-5.5-codex",
+    "markdown": "codex/agents/verify.md",
+    "purpose": "Run tests, harness checks, and executable verification."
+  },
+  {
+    "name": "audit",
+    "provider": "claude",
+    "model": "claude-opus-4.8",
+    "markdown": "claude/agents/audit.md",
+    "purpose": "Perform the distinct audit pass required before deployment.",
+    "required_mapping": "audit -> Claude Opus 4.8"
+  },
+  {
+    "name": "debug",
+    "provider": "codex",
+    "model": "gpt-5.5-codex",
+    "markdown": "codex/agents/debug.md",
+    "purpose": "Diagnose audit failures before rebuild.",
+    "required_mapping": "build/debug -> GPT-5.5 Codex"
+  },
+  {
+    "name": "ideas",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/ideas.md",
+    "purpose": "Generate alternative approaches before deeper escalation.",
+    "required_mapping": "scout/ideas/craft/trace -> Antigravity"
+  },
+  {
+    "name": "scout",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/scout.md",
+    "purpose": "Scout the codebase and artifacts before deeper implementation work.",
+    "required_mapping": "scout/ideas/craft/trace -> Antigravity"
+  },
+  {
+    "name": "trace",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/trace.md",
+    "purpose": "Trace persistent failures before craft escalation.",
+    "required_mapping": "scout/ideas/craft/trace -> Antigravity"
+  },
+  {
+    "name": "craft",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/craft.md",
+    "purpose": "Apply escalation fixes after trace findings.",
+    "required_mapping": "scout/ideas/craft/trace -> Antigravity"
+  },
+  {
+    "name": "deploy",
+    "provider": "claude",
+    "model": "claude-sonnet-4",
+    "markdown": "claude/agents/deploy.md",
+    "purpose": "Coordinate deployment readiness and release notes."
+  },
+  {
+    "name": "maintenance",
+    "provider": "antigravity",
+    "model": "gemini-2.5-pro",
+    "markdown": "antigravity/agents/maintenance.md",
+    "purpose": "Own maintenance follow-up and long-tail checks."
+  }
+]
