@@ -22,7 +22,7 @@ resize < e ; default
 warp < w ; default
 
 # Launch the default terminal for this repo.
-default < cmd + alt + ctrl + shift - return : open -a Ghostty
+default < cmd + alt + ctrl + shift - return : open -a Alacritty
 
 # Focus windows with vim-style directions.
 default < cmd + alt + ctrl + shift - h : ~/.config/skhd/bin/yabai-msg window --focus west || :

@@ -1,0 +1,9 @@
+# Copy to ~/.config/git/config.local (or to git/config.local in this repo
+# checkout if git/ is symlinked to ~/.config/git) and edit for this machine.
+
+[user]
+    signingkey = ~/.ssh/your_signing_key.pub
+
+# Optional per-machine identity overrides:
+# name = Your Name
+# email = you@example.com

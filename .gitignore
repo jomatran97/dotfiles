@@ -20,3 +20,38 @@ __pycache__/
 .pytest_cache/
 # Local pi agent state
 .pi/
+git/config.local
+
+# Local machine / secret config
+.env
+.env.*
+!.env.example
+!.env.*.example
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/*.local.json
+.antigravity/
+.antigravitycli/
+.gemini/
+
+# Tool-managed checkouts / dependency caches
+tmux/plugins/
+node_modules/
+
+# Python virtualenvs / coverage caches
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Editor / backup artifacts
+._*
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+*.orig

@@ -2,8 +2,8 @@
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
-CONFIG_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
+CONFIG_DIR=$(CDPATH='' cd -- "$SCRIPT_DIR/.." && pwd)
 
 # shellcheck source=../colors.sh
 . "$CONFIG_DIR/colors.sh"

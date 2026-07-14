@@ -1,0 +1,60 @@
+# ~/.config/alacritty/alacritty.toml
+# Source of truth: dotfiles/alacritty/alacritty.toml
+
+[env]
+# Use Alacritty's own terminfo outside tmux. tmux still sets panes to
+# tmux-256color internally, but this lets tmux detect the real client terminal.
+TERM = "alacritty"
+
+[window]
+# Hide native title bar/window chrome.
+decorations = "None"
+padding = { x = 8, y = 6 }
+dynamic_padding = true
+opacity = 0.65
+startup_mode = "Windowed"
+option_as_alt = "Both"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+size = 15.0
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "FiraCode Nerd Font Mono"
+style = "Bold"
+
+# The installed FiraCode Nerd Font Mono package here has Regular/Bold but no
+# Italic/Bold Italic faces, so map italic requests to installed faces to avoid
+# font loading warnings.
+[font.italic]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font Mono"
+style = "Bold"
+
+[colors.primary]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+
+[colors.cursor]
+text = "#1e1e2e"
+cursor = "#f5e0dc"
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+unfocused_hollow = true
+
+[mouse]
+hide_when_typing = false
+
+[selection]
+save_to_clipboard = true

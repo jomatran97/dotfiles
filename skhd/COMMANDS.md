@@ -12,7 +12,7 @@ In the tables below, that combo is written as **Hyper**.
 
 | Key | Action |
 | --- | --- |
-| `Hyper + Return` | Open Ghostty |
+| `Hyper + Return` | Open Alacritty |
 | `Hyper + h` | Focus window west |
 | `Hyper + j` | Focus window south |
 | `Hyper + k` | Focus window north |

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
 # shellcheck source=./helpers.sh
 . "$SCRIPT_DIR/helpers.sh"
 
@@ -34,13 +34,15 @@ fi
 
 old_ifs=$IFS
 IFS='|'
-set -- $media_info
+read -r player state artist track <<EOF_MEDIA_INFO
+$media_info
+EOF_MEDIA_INFO
 IFS=$old_ifs
 
-player=${1:-}
-state=${2:-}
-artist=${3:-}
-track=${4:-}
+player=${player:-}
+state=${state:-}
+artist=${artist:-}
+track=${track:-}
 
 case "$state" in
   playing)

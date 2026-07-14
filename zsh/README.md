@@ -33,6 +33,8 @@ zsh -ic 'source ~/.config/zsh/plugins.zsh && zplugin-install'
 
 The shell never clones plugins during startup. If a plugin is missing, zsh warns and keeps going.
 
+Upstream URLs and manual refresh notes live in [`PLUGINS.md`](./PLUGINS.md).
+
 ## Keybindings
 
 | Key | Action |

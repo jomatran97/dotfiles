@@ -1,5 +1,7 @@
 # tmux
 
+Minimal tmux configuration focused on Meta/Alt no-prefix navigation.
+
 ## Install
 
 Symlink this directory into place:
@@ -8,14 +10,42 @@ Symlink this directory into place:
 ln -s "$(pwd)/tmux" ~/.config/tmux
 ```
 
-## Plugins
+Reload from inside tmux with `Alt-r` or `Ctrl-a r`.
 
-This repo vendors its tmux plugin checkouts under `tmux/plugins/`, including TPM, so a normal XDG symlink install does not require a separate `~/.tmux/plugins/tpm` clone.
+## Meta / Alt keys
 
-If you prefer a legacy non-XDG TPM install, cloning TPM into `~/.tmux/plugins/tpm` still works because `tmux.conf` falls back to that path when the repo-managed checkout is absent.
+The config uses tmux's `M-` key syntax for Meta/Alt bindings. On macOS, make
+sure your terminal sends Option as Alt/Meta instead of inserting special
+characters.
 
-## Notes
+Suggested terminal-side settings:
 
-- tmux now prefers `tmux-256color` when that terminfo entry exists, advertises RGB / underscore styling for `xterm-ghostty` and `xterm-256color` clients, and falls back to `screen-256color` otherwise.
-- SessionX dotfile paths now derive from the symlinked `~/.config/tmux/..` install path instead of a machine-specific absolute path.
-- `tmux.reset.conf` removes the shadowed duplicate bindings that were previously overridden later in the file, so the effective keymap is unchanged but easier to audit. The left-side Catppuccin session module now also doubles as a small prefix / copy-mode indicator.
+- Ghostty: enable Option-as-Alt in your Ghostty config if needed.
+- Alacritty: use `option_as_alt = "Both"` if Option does not reach tmux as Alt.
+
+`escape-time` is set to `10` to make Alt/Meta recognition more reliable for
+terminals that encode Meta as `Esc` + key. If Escape feels slow in editors, try
+lowering it to `5` or `0`.
+
+## Main bindings
+
+No prefix:
+
+| Key | Action |
+| --- | --- |
+| `Alt-h/j/k/l` | Select pane left/down/up/right |
+| `Alt-,` / `Alt-.` | Resize pane left/right |
+| `Alt--` / `Alt-=` | Resize pane down/up |
+| `Alt-p` / `Alt-n` | Previous/next window |
+| `Alt-H` / `Alt-L` | Previous/next window |
+| `Alt-1` … `Alt-9` | Select window 1-9 |
+| `Alt-s` | Split vertically |
+| `Alt-v` | Split horizontally |
+| `Alt-c` | New window |
+| `Alt-z` | Zoom pane |
+| `Alt-w` | Choose tree |
+| `Alt-S` | Choose session |
+| `Alt-[` | Copy mode |
+| `Alt-r` | Reload config |
+
+Prefix remains `Ctrl-a` for tmux defaults/fallbacks.

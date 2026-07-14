@@ -8,7 +8,7 @@ SKETCHYBAR_FRONT_APP_EVENT="yabai_front_app_change"
 
 PERSONAL_CHAT_APPS='(Zalo|WhatsApp|Messages|iMessage|Signal|Telegram)'
 WORK_CHAT_APPS='(Slack|Microsoft Teams( classic)?|Teams)'
-TERMINAL_APPS='(Terminal|iTerm2|Ghostty|WezTerm|kitty|Warp)'
+TERMINAL_APPS='(Terminal|iTerm2|Alacritty|Ghostty|WezTerm|kitty|Warp|Claude)'
 DESKTOP_3_APPS='(Code|Visual Studio Code|Arc|Brave|Brave Browser|Firefox|Postman)'
 NOTES_APPS='(Notes|Obsidian)'
 PASSWORD_APPS='(1Password|Bitwarden)'

@@ -58,8 +58,6 @@ for sid in $SPACES; do
 
   sketchybar --add item "$name" left \
     --set "$name" \
-    SPACE_INDEX="$sid" \
-    SPACE_ICON_LIMIT=4 \
     icon="$sid" \
     label="—" \
     drawing=off \
@@ -74,9 +72,8 @@ sketchybar --add item spaces.worker left \
   icon.drawing=off \
   label.drawing=off \
   drawing=off \
-  script="$PLUGIN_DIR/spaces.sh" \
-  SPACE_LIST="$SPACES" \
-  SPACE_ICON_LIMIT=4 \
+  updates=on \
+  script="SPACE_LIST='$SPACES' SPACE_ICON_LIMIT='4' \"$PLUGIN_DIR/spaces.sh\"" \
   --subscribe spaces.worker yabai_spaces_change
 
 # shellcheck disable=SC2086
@@ -96,6 +93,7 @@ sketchybar --add item skhd_mode left \
   icon.color="$PEACH" \
   label="MODE" \
   drawing=off \
+  updates=on \
   padding_left=8 \
   padding_right=8 \
   background.drawing=on \
@@ -130,7 +128,7 @@ sketchybar --add item bluetooth right \
   icon="BT" \
   icon.color="$SKY" \
   label="--" \
-  width=120 \
+  width=dynamic \
   update_freq=90 \
   script="$PLUGIN_DIR/bluetooth.sh" \
   click_script="$PLUGIN_DIR/bluetooth.sh --click" \
@@ -175,7 +173,7 @@ for slot in $(seq 1 "$BT_DEVICE_SLOTS"); do
     label="—" \
     width=230 \
     drawing=off \
-    click_script="$PLUGIN_DIR/bluetooth.sh --device"
+    click_script="$PLUGIN_DIR/bluetooth.sh --open-settings"
 done
 
 sketchybar --add item bluetooth.action popup.bluetooth \
@@ -189,7 +187,7 @@ sketchybar --add item power right \
   --set power \
   icon="BAT" \
   label="--%" \
-  width=76 \
+  width=dynamic \
   update_freq=120 \
   script="$PLUGIN_DIR/battery.sh"
 
@@ -198,7 +196,7 @@ sketchybar --add item time right \
   icon="TIME" \
   icon.color="$ROSEWATER" \
   label="--:--" \
-  width=96 \
+  width=dynamic \
   update_freq=30 \
   script="$PLUGIN_DIR/clock.sh"
 

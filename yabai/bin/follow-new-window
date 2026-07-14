@@ -105,17 +105,15 @@ external_bar_offsets() {
       ;;
   esac
 
-  old_ifs=$IFS
-  IFS=:
-  set -- $external_bar
-  IFS=$old_ifs
+  bar_top_raw=$(printf '%s\n' "$external_bar" | awk -F: '{ print $2 }')
+  bar_bottom_raw=$(printf '%s\n' "$external_bar" | awk -F: '{ print $3 }')
 
-  if [ "$#" -ge 2 ]; then
-    bar_top=$(normalize_integer "$2" || printf '0')
+  if [ -n "$bar_top_raw" ]; then
+    bar_top=$(normalize_integer "$bar_top_raw" || printf '0')
   fi
 
-  if [ "$#" -ge 3 ]; then
-    bar_bottom=$(normalize_integer "$3" || printf '0')
+  if [ -n "$bar_bottom_raw" ]; then
+    bar_bottom=$(normalize_integer "$bar_bottom_raw" || printf '0')
   fi
 
   printf '%s %s' "$bar_top" "$bar_bottom"
@@ -187,9 +185,9 @@ center_floating_window() {
   top_padding=$(config_integer_or_zero top_padding)
   bottom_padding=$(config_integer_or_zero bottom_padding)
 
-  set -- $(external_bar_offsets)
-  bar_top=$1
-  bar_bottom=$2
+  bar_offsets=$(external_bar_offsets)
+  bar_top=${bar_offsets%% *}
+  bar_bottom=${bar_offsets#* }
 
   usable_x=$((display_x + left_padding))
   usable_y=$((display_y + top_padding + bar_top))

@@ -1,0 +1,5 @@
+# Let ShellCheck follow repo-relative SketchyBar source directives when run from
+# the repository root.
+external-sources=true
+source-path=sketchybar
+source-path=sketchybar/plugins

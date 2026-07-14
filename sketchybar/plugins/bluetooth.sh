@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
 # shellcheck source=./helpers.sh
 . "$SCRIPT_DIR/helpers.sh"
 
@@ -187,7 +187,7 @@ apply_main_item() {
     icon="BT" \
     icon.color="$icon_color" \
     label.color="$label_color" \
-    label="$(trim_label "$summary_label" 18)"
+    label="$(trim_label "$summary_label" 14)"
 }
 
 apply_popup_items() {
@@ -272,16 +272,15 @@ apply_popup_items() {
       device_label_color=$SUBTEXT0
     fi
 
+    device_click_script="BT_DEVICE_ADDR='$address' BT_DEVICE_CONNECTED='$connected' \"$SCRIPT_DIR/bluetooth.sh\" --device"
+
     sketchybar_cmd --set "$item" \
       drawing=on \
       icon="$device_icon" \
       icon.color="$device_icon_color" \
       label.color="$device_label_color" \
       label="$(trim_label "$details" 32)" \
-      BT_DEVICE_NAME="$name" \
-      BT_DEVICE_ADDR="$address" \
-      BT_DEVICE_CONNECTED="$connected" \
-      click_script="$SCRIPT_DIR/bluetooth.sh --device"
+      click_script="$device_click_script"
 
     slot=$((slot + 1))
     [ "$slot" -le "$MAX_DEVICES" ] || break
@@ -291,9 +290,7 @@ apply_popup_items() {
     sketchybar_cmd --set "bluetooth.device.$slot" \
       drawing=off \
       label="—" \
-      BT_DEVICE_NAME= \
-      BT_DEVICE_ADDR= \
-      BT_DEVICE_CONNECTED=0
+      click_script="$SCRIPT_DIR/bluetooth.sh --open-settings"
     slot=$((slot + 1))
   done
 

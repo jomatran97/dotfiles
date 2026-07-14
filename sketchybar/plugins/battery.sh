@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
 # shellcheck source=./helpers.sh
 . "$SCRIPT_DIR/helpers.sh"
 

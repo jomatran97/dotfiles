@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname "$0")" && pwd)
 # shellcheck source=./helpers.sh
 . "$SCRIPT_DIR/helpers.sh"
 
@@ -9,7 +9,12 @@ mode=$(cat "$state_file" 2>/dev/null || printf 'default')
 
 case "$mode" in
   ''|default)
-    sketchybar_cmd --set "$NAME" drawing=off
+    sketchybar_cmd --set "$NAME" \
+      drawing=off \
+      icon="⌨" \
+      icon.color="$PEACH" \
+      label="MODE" \
+      label.color="$TEXT"
     exit 0
     ;;
   swap)

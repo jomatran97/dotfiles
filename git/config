@@ -1,5 +1,10 @@
 # ~/.config/git/config
 
+# Optional per-machine overrides such as signing keys live in
+# ~/.config/git/config.local. Missing include files are ignored by Git.
+[include]
+    path = ~/.config/git/config.local
+
 [init]
     defaultBranch = main
 
@@ -44,9 +49,6 @@
 
 [gpg]
     format = ssh
-
-[user]
-    signingkey = ~/.ssh/ryan_parker.pub
 
 [commit]
     gpgsign = true
