@@ -1,26 +1,30 @@
-# Better ls
-alias ls='eza --icons'
+# Better ls/eza aliases. Guard Homebrew tools so a fresh macOS upgrade shell
+# still starts cleanly before packages have been restored.
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --icons'
+  alias ll='eza -lh --icons --git'
+  alias la='eza -lah --icons --git'
+  alias tree='eza --tree --icons'
 
-# Detailed listing
-alias ll='eza -lh --icons --git'
+  # Reuse ls completions for eza when compinit has already provided compdef.
+  (( $+functions[compdef] )) && compdef eza=ls
+else
+  alias ll='ls -lh'
+  alias la='ls -lah'
+fi
 
-# Detailed listing including hidden files
-alias la='eza -lah --icons --git'
-
-# Tree view
-alias tree='eza --tree --icons'
-
-# Reuse ls completions for eza (avoids defining a separate completion function)
-compdef eza=ls
-
-# Better cat
-alias cat='bat'
+# Better cat when bat is installed.
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+fi
 
 # =========================================================
 # Core utilities
 # =========================================================
 
-alias grep='rg --color=auto'
+if command -v rg >/dev/null 2>&1; then
+  alias grep='rg --color=auto'
+fi
 alias df='df -h'
 
 # diff --color is GNU-only; enable it only if this diff supports it
@@ -36,11 +40,16 @@ fi
 alias -- -='cd -'  # -- prevents - being parsed as a flag; cd - jumps to previous directory
 
 lf() { # cd into the directory where you quit lf
+    if ! command -v lf >/dev/null 2>&1; then
+        print -u2 'lf is not installed'
+        return 127
+    fi
+
     local tmp dir
     tmp=$(mktemp)
     command lf -last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
-        dir="$(<"$tmp")"   # builtin read; avoids the cat='bat' alias above
+        dir="$(<"$tmp")"   # builtin read; avoids a possible cat='bat' alias above
         rm -f "$tmp"
         [ -d "$dir" ] && [ "$dir" != "$PWD" ] && cd "$dir"
     fi
@@ -50,7 +59,9 @@ lf() { # cd into the directory where you quit lf
 # Editor
 # =========================================================
 
-alias vim='nvim'
+if command -v nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+fi
 
 # =========================================================
 # Git
@@ -64,4 +75,6 @@ alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 # Video
 # =========================================================
 
-alias stream='mpv av://v4l2:/dev/video4 --fullscreen --demuxer-lavf-o=input_format=mjpeg,framerate=30 --profile=low-latency --untimed'
+if command -v mpv >/dev/null 2>&1; then
+  alias stream='mpv av://v4l2:/dev/video4 --fullscreen --demuxer-lavf-o=input_format=mjpeg,framerate=30 --profile=low-latency --untimed'
+fi

@@ -4,8 +4,10 @@
 
 if command -v fd >/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='fd --type f --hidden --strip-cwd-prefix --exclude .git'
+  export FZF_FILE_NO_HIDDEN_COMMAND='fd --type f --strip-cwd-prefix --exclude .git'
 else
   export FZF_DEFAULT_COMMAND='find . -type f | sed "s#^\./##"'
+  export FZF_FILE_NO_HIDDEN_COMMAND='find . -type f ! -path "*/.*" | sed "s#^\./##"'
 fi
 
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -34,8 +36,8 @@ _fzf_file_no_hidden() {
     return 1
   fi
   local cmd result
-  cmd="${FZF_DEFAULT_COMMAND/--hidden /}"
-  result=$(eval "${cmd:-find . -type f}" | fzf --preview "$_FZF_PREVIEW_CMD") \
+  cmd="${FZF_FILE_NO_HIDDEN_COMMAND:-$FZF_DEFAULT_COMMAND}"
+  result=$(eval "$cmd" | fzf --preview "$_FZF_PREVIEW_CMD") \
     && LBUFFER+="$result"
   zle reset-prompt
 }

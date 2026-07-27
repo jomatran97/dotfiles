@@ -77,7 +77,7 @@ return {
       "helm_ls",
     }
     if vim.fn.executable("go") == 1 then
-      table.insert(ensure_installed, #ensure_installed, "gopls")
+      table.insert(ensure_installed, "gopls")
     end
 
     require("mason-lspconfig").setup({

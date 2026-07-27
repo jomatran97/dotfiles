@@ -35,7 +35,7 @@ return {
     { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Grep word/selection", mode = { "n", "x" } },
     { "<leader>/", function() Snacks.picker.lines() end, desc = "Search current buffer" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-    { "<leader>sh", function() Snacks.picker.help() end, desc = "Help pages" },
+    { "<leader>sH", function() Snacks.picker.help() end, desc = "Help pages" },
     { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
     { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "Document symbols" },
     { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume last picker" },

@@ -1,0 +1,10 @@
+# Tracked hcom environment. hcom passes these to EVERY agent it launches.
+# Format: KEY=VALUE, one per line (no `export`, no shell expansion assumed —
+# absolute paths are used deliberately). Verify with: hcom run docs --config
+#
+# These are what make the ~/config/* provider symlinks actually take effect.
+# Without them the CLIs fall back to ~/.claude, ~/.codex, ~/.gemini and every
+# tracked config file is silently ignored (including codex sandbox/approval).
+CLAUDE_CONFIG_DIR=/Users/ryanparker/config/claude
+CODEX_HOME=/Users/ryanparker/config/codex
+GEMINI_CONFIG_DIR=/Users/ryanparker/config/gemini

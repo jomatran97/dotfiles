@@ -109,6 +109,7 @@ Leader is `<Space>`.
 | `<leader>sw` | Grep word / selection |
 | `<leader>sd` | Diagnostics |
 | `<leader>ss` | Document symbols |
+| `<leader>sH` | Help pages |
 | `<leader>sk` | Keymaps |
 | `gd` / `gr` | Goto definition / references (picker) |
 | `gI` / `gy` | Goto implementation / type definition |
@@ -125,6 +126,7 @@ Leader is `<Space>`.
 | `<leader>gg` | Lazygit |
 | `<leader>bd` | Delete buffer |
 | `<C-h/j/k/l>` | Move between windows |
+| `<leader>sv` / `<leader>sh` | Split vertically / horizontally |
 | `<S-h>` / `<S-l>` | Previous / next buffer |
 | `<leader>u…` | Toggles (spell, wrap, diagnostics, …) |
 

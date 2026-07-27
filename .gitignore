@@ -55,3 +55,15 @@ htmlcov/
 *.bak
 *.backup
 *.orig
+
+# Multiagent required ignores
+**/settings.local.json
+**/auth.json
+**/*.local.*
+*.bak.*
+# hcom runtime / secrets (HCOM_DIR is outside the repo; keep repo mirrors safe)
+hcom/config.toml
+hcom/*.db
+hcom/*.sqlite*
+hcom/logs/
+

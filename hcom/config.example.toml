@@ -1,0 +1,29 @@
+# Example hcom configuration for this dotfiles module.
+#
+# Copy values from here manually with `hcom config ...` or run:
+#   bash hcom/config.defaults.sh
+#
+# DO NOT symlink this file to $HCOM_DIR/config.toml.
+# DO NOT commit $HCOM_DIR/config.toml: it may contain relay credentials/PSKs.
+# HCOM_DIR itself cannot be set here because hcom must choose its home before
+# it can read config.toml; export HCOM_DIR=$HOME/config/hcom in the shell.
+
+# Related shell exports for operator shells/wrappers (not TOML settings):
+#   export CLAUDE_CONFIG_DIR="$HOME/config/claude"
+#   export CODEX_HOME="$HOME/config/codex"
+#   export GEMINI_CONFIG_DIR="$HOME/config/gemini"
+#   export MA_BIN="$HOME/bin"
+#
+[terminal]
+active = "tmux"
+
+[launch]
+auto_subscribe = "collision,stopped"
+
+[preferences]
+auto_approve = true
+# Idle reap timeout in seconds. Must be > the largest worker phase timeout, not
+# equal to it, or a worker running its full budget can be reaped exactly at the
+# deadline. hcom/config.defaults.sh derives this as IMPLEMENTER_TIMEOUT * 1.25
+# (2400 -> 3000) and is the authoritative source; this file is documentation only.
+timeout = 3000

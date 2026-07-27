@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ma-*)",
+      "Bash(ma-*:*)",
+      "Bash(hcom send:*)",
+      "Bash(hcom list:*)",
+      "Bash(hcom kill:*)",
+      "Read(//Users/ryanparker/state/multiagent/runs/**)",
+      "Edit(//Users/ryanparker/state/multiagent/runs/**)",
+      "Read(//Users/ryanparker/Documents/personal/code/**)"
+    ],
+    "deny": [
+      "Bash(hcom kill all)",
+      "Bash(hcom kill all:*)"
+    ]
+  }
+}

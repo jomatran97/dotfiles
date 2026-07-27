@@ -1,0 +1,7 @@
+# Codex headless worker defaults for hcom multiagent orchestration.
+# Validated against `codex --help`: sandbox value `workspace-write`, approval policy `never`.
+sandbox_mode = "workspace-write"
+approval_policy = "never"
+
+[sandbox_workspace_write]
+writable_roots = ["/Users/ryanparker/state/multiagent/runs"]

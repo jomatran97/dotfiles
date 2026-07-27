@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hcom send:*)"
+    ],
+    "deny": [
+      "Bash(hcom kill all)",
+      "Bash(hcom kill all:*)"
+    ]
+  }
+}
