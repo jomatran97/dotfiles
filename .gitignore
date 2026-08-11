@@ -66,4 +66,5 @@ hcom/config.toml
 hcom/*.db
 hcom/*.sqlite*
 hcom/logs/
+.multi-agent-runtime/
 
