@@ -7,9 +7,7 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd("TextYankPost", {
   group = augroup("highlight_yank", { clear = true }),
   callback = function()
-    -- vim.hl is the new name in 0.11+, vim.highlight on older versions.
-    local hl = vim.hl or vim.highlight
-    hl.on_yank({ timeout = 200 })
+    vim.hl.on_yank({ timeout = 200 })
   end,
 })
 

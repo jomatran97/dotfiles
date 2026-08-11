@@ -37,9 +37,7 @@ opt.wrap = false
 opt.colorcolumn = "80"
 opt.showmode = false -- mode is shown in the statusline instead
 opt.laststatus = 3 -- a single global statusline
-if vim.fn.has("nvim-0.11") == 1 then
-	opt.winborder = "rounded" -- default rounded borders for floating windows
-end
+opt.winborder = "rounded" -- default rounded borders for floating windows
 opt.fillchars = { eob = " " }
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
@@ -68,5 +66,5 @@ opt.confirm = true -- prompt instead of failing on :q with changes
 -- Recognise .ejs files (Embedded JavaScript templates) as their own filetype
 -- so Treesitter and Emmet can treat them as embedded HTML/JS.
 vim.filetype.add({
-	extension = { ejs = "ejs" },
+  extension = { ejs = "ejs" },
 })

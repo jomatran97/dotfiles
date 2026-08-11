@@ -7,7 +7,6 @@ return {
     preset = "modern",
     -- Group labels shown for leader prefixes.
     spec = {
-      { "<leader>a", group = "ai" },
       { "<leader>b", group = "buffer" },
       { "<leader>c", group = "code" },
       { "<leader>d", group = "data / db / dbt" },

@@ -36,6 +36,15 @@ map("v", ">", ">gv", { desc = "Indent right" })
 -- Paste over a selection without clobbering the unnamed register
 map("x", "<leader>p", [["_dP]], { desc = "Paste without yank" })
 
+-- Delete blank lines without clobbering the unnamed register.
+map("n", "dd", function()
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return [["_dd]]
+  end
+
+  return "dd"
+end, { expr = true, desc = "Delete line" })
+
 -- Buffers (<leader>bd = delete buffer is provided by snacks.nvim)
 map("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
 map("n", "<S-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })

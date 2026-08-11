@@ -1,6 +1,9 @@
 -- dbtpal: dbt-aware editing, navigation, and dbt commands.
 return {
   "PedramNavid/dbtpal",
+  enabled = function()
+    return vim.fn.executable("dbt") == 1
+  end,
   event = { "BufReadPre", "BufNewFile" },
   dependencies = { "nvim-lua/plenary.nvim" },
   opts = {

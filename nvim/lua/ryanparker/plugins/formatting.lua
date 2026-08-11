@@ -27,14 +27,23 @@ return {
       json = { "prettier" },
       yaml = { "prettier" },
       markdown = { "prettier" },
-      go = { "goimports" }, -- gofmt + import organisation
-      rust = { "rustfmt" }, -- ships with the Rust toolchain (rustup)
       sh = { "shfmt" },
-      terraform = { "terraform_fmt" },
-      hcl = { "terraform_fmt" },
       -- .ejs templates and Dockerfiles have no reliable CLI formatter;
       -- they fall back to the language server (lsp_format below).
     }
+
+    if vim.fn.executable("go") == 1 then
+      formatters_by_ft.go = { "goimports" } -- gofmt + import organisation
+    end
+
+    if vim.fn.executable("rustfmt") == 1 then
+      formatters_by_ft.rust = { "rustfmt" } -- ships with the Rust toolchain (rustup)
+    end
+
+    if vim.fn.executable("terraform") == 1 then
+      formatters_by_ft.terraform = { "terraform_fmt" }
+      formatters_by_ft.hcl = { "terraform_fmt" }
+    end
 
     if vim.fn.executable("sqlfluff") == 1 then
       formatters_by_ft.sql = { "sqlfluff" }
