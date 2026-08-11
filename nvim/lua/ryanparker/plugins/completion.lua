@@ -1,11 +1,10 @@
--- Autocompletion with blink.cmp (the current meta — fast, batteries-included).
+-- Autocompletion with blink.cmp.
 -- Uses Neovim's native vim.snippet engine with friendly-snippets, so no
 -- LuaSnip/nvim-cmp machinery is needed. https://cmp.saghen.dev
 return {
   "saghen/blink.cmp",
   dependencies = { "rafamadriz/friendly-snippets" },
-  -- Pin the stable v1 line (downloads a prebuilt fuzzy-matcher binary).
-  -- v2 is still landing breaking changes as of mid-2026.
+  -- Pin the stable v1 API (downloads a prebuilt fuzzy-matcher binary).
   version = "1.*",
   event = "InsertEnter",
   ---@module 'blink.cmp'

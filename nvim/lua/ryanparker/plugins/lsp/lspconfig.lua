@@ -1,4 +1,4 @@
--- LSP configuration using Neovim 0.11's native vim.lsp API.
+-- LSP configuration using Neovim 0.12's native vim.lsp API.
 --   * mason-lspconfig installs + auto-enables the servers listed below
 --   * nvim-lspconfig ships each server's base config (cmd / root_markers)
 --   * blink.cmp provides completion capabilities
@@ -73,15 +73,22 @@ return {
       "bashls",
       "emmet_ls",
       "dockerls",
-      "terraformls",
-      "helm_ls",
     }
     if vim.fn.executable("go") == 1 then
       table.insert(ensure_installed, "gopls")
     end
+    if vim.fn.executable("terraform") == 1 then
+      table.insert(ensure_installed, "terraformls")
+    end
+    if vim.fn.executable("helm") == 1 then
+      table.insert(ensure_installed, "helm_ls")
+    end
 
     require("mason-lspconfig").setup({
       ensure_installed = ensure_installed,
+      -- Mason also contains formatter packages that expose an LSP mode (for
+      -- example stylua). Enable only the language servers configured above.
+      automatic_enable = ensure_installed,
     })
   end,
 }

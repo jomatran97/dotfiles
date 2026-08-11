@@ -37,6 +37,9 @@ require("lazy").setup({
   install = { colorscheme = { "catppuccin", "habamax" } },
   checker = { enabled = true, notify = false }, -- check for updates silently
   change_detection = { notify = false },
+  -- None of the configured plugins require LuaRocks. Disabling integration
+  -- avoids bootstrapping a separate Lua 5.1/hererocks environment.
+  rocks = { enabled = false },
   performance = {
     rtp = {
       disabled_plugins = {
