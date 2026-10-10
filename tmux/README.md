@@ -21,7 +21,7 @@ characters.
 Suggested terminal-side settings:
 
 - Ghostty: enable Option-as-Alt in your Ghostty config if needed.
-- Alacritty: use `option_as_alt = "Both"` if Option does not reach tmux as Alt.
+- Alacritty: this repo sets `option_as_alt = "Both"` in `alacritty/alacritty.toml`.
 
 `escape-time` is set to `10` to make Alt/Meta recognition more reliable for
 terminals that encode Meta as `Esc` + key. If Escape feels slow in editors, try
@@ -48,4 +48,4 @@ No prefix:
 | `Alt-[` | Copy mode |
 | `Alt-r` | Reload config |
 
-Prefix remains `Ctrl-a` for tmux defaults/fallbacks.
+Prefix remains `Ctrl-a` for tmux defaults/fallbacks. Split fallbacks are `Ctrl-a s` for vertical and `Ctrl-a v` for horizontal, plus tmux defaults `Ctrl-a -` and `Ctrl-a |`.

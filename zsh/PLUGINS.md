@@ -1,29 +1,38 @@
-# Vendored zsh plugins
+# Oh My Zsh plugins
 
-This repo vendors its zsh plugins as plain tracked directories under `zsh/plugins/`. We intentionally do **not** keep their `.git/` metadata so the dotfiles repo remains self-contained and does not depend on nested Git repositories.
+Oh My Zsh is required. Plugins are declared as one static list in `zshrc`; startup does not discover, filter, install, or update them.
 
-## Plugin inventory
+## Static list
 
-| Directory | Upstream | Why it is here |
-| --- | --- | --- |
-| `zsh/plugins/zsh-autosuggestions` | <https://github.com/zsh-users/zsh-autosuggestions> | fish-style command suggestions from history |
-| `zsh/plugins/zsh-history-substring-search` | <https://github.com/zsh-users/zsh-history-substring-search> | prefix-based up/down history search |
-| `zsh/plugins/zsh-vi-mode` | <https://github.com/jeffreytse/zsh-vi-mode> | modal editing and cursor-shape hooks |
-| `zsh/plugins/fast-syntax-highlighting` | <https://github.com/zdharma-continuum/fast-syntax-highlighting> | fast syntax highlighting without a framework |
+The configuration enables:
 
-## Refreshing one vendored plugin
-
-Use a temporary clone, then copy the working tree back without `.git` metadata:
-
-```sh
-plugin='zsh-autosuggestions'
-url='https://github.com/zsh-users/zsh-autosuggestions.git'
-tmp=$(mktemp -d)
-git clone --depth=1 "$url" "$tmp/$plugin"
-rm -rf "zsh/plugins/$plugin"
-mkdir -p zsh/plugins
-cp -R "$tmp/$plugin" "zsh/plugins/$plugin"
-rm -rf "zsh/plugins/$plugin/.git" "$tmp"
+```text
+command-not-found dotenv docker gitignore colorize thefuck tldr tmux fast-syntax-highlighting
 ```
 
-After updating, review the diff, run the zsh syntax checks, and commit the vendored changes with a note about the upstream version or date.
+The fzf plugin is deliberately absent because modern `fzf --zsh` integration is initialized directly. `zsh-autosuggestions` remains deliberately absent to avoid inline duplicated suggestions. `fast-syntax-highlighting` is enabled again for command coloring and must remain last so it can wrap widgets installed by earlier plugins.
+
+Oh My Zsh supplies built-in plugins under `$ZSH/plugins`. The third-party `fast-syntax-highlighting` plugin must be installed manually under `${ZSH_CUSTOM:-$ZSH/custom}/plugins`. Missing static plugins may cause an Oh My Zsh warning; missing tool dependencies may disable or degrade the corresponding feature. This is an intentional tradeoff for a simple, visible configuration.
+
+## Install external plugins
+
+Run this manual setup command after installing Oh My Zsh:
+
+```sh
+custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting \
+  "$custom/plugins/fast-syntax-highlighting"
+```
+
+Do not install or enable `zsh-autosuggestions`; inline duplicated suggestions are intentionally disabled.
+
+## Update
+
+Review upstream changes, then update each checkout explicitly:
+
+```sh
+git -C "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" pull --ff-only
+git -C "${ZSH:-$HOME/.oh-my-zsh}" pull --ff-only
+```
+
+Oh My Zsh automatic updates are disabled, so startup does no plugin network work. Older fzf integration-file discovery and no-Oh-My-Zsh completion/plugin fallbacks are intentionally unsupported.

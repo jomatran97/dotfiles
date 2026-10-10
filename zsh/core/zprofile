@@ -1,0 +1,35 @@
+# Initialize Homebrew when discoverable, without assuming one platform layout.
+# ZSH_DISABLE_HOMEBREW is useful for recovery shells and hermetic validation.
+if [[ ${ZSH_DISABLE_HOMEBREW:-0} != 1 ]]; then
+  typeset _zsh_brew=''
+  typeset _zsh_brew_env=''
+  typeset _zsh_brew_candidate
+
+  if (( ${+commands[brew]} )); then
+    _zsh_brew=$commands[brew]
+  else
+    for _zsh_brew_candidate in \
+      /opt/homebrew/bin/brew \
+      /usr/local/bin/brew \
+      /home/linuxbrew/.linuxbrew/bin/brew \
+      "$HOME/.linuxbrew/bin/brew"
+    do
+      if [[ -x $_zsh_brew_candidate ]]; then
+        _zsh_brew=$_zsh_brew_candidate
+        break
+      fi
+    done
+  fi
+
+  if [[ -n $_zsh_brew ]] && _zsh_brew_env=$("$_zsh_brew" shellenv 2>/dev/null); then
+    eval "$_zsh_brew_env"
+  fi
+
+  unset _zsh_brew _zsh_brew_env _zsh_brew_candidate
+fi
+
+# >>> Codex installer >>>
+path=("$HOME/.local/bin" $path)
+# <<< Codex installer <<<
+typeset -U path PATH
+export PATH="$HOME/.local/bin:$PATH"

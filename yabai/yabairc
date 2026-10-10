@@ -1,0 +1,159 @@
+#!/usr/bin/env sh
+
+# yabai configuration for named macOS Spaces.
+# The first five Spaces are labeled:
+#   1=chat, 2=terminal, 3=web, 4=notes, 5=default
+
+script_dir="$(CDPATH='' cd "$(dirname "$0")" && pwd -P)" || exit 1
+YABAI_DIR="${YABAI_DIR:-$script_dir}"
+. "$YABAI_DIR/app-categories.sh"
+
+# Standard macOS application locations. Override for tests or custom installs.
+YABAI_APP_DIRS="${YABAI_APP_DIRS:-/Applications:/System/Applications:/Applications/Utilities:/System/Applications/Utilities}"
+YABAI_ITERM_APP="${YABAI_ITERM_APP:-/Applications/iTerm.app}"
+
+# Basic tiling defaults. Adjust to taste.
+yabai -m config layout bsp
+yabai -m config window_placement second_child
+yabai -m config split_ratio 0.50
+yabai -m config auto_balance off
+yabai -m config focus_follows_mouse off
+yabai -m config mouse_follows_focus off
+yabai -m config window_gap 8
+yabai -m config top_padding 8
+yabai -m config bottom_padding 8
+yabai -m config left_padding 8
+yabai -m config right_padding 8
+
+space_count() {
+  yabai -m query --spaces 2>/dev/null | /usr/bin/python3 -c 'import json,sys; print(len(json.load(sys.stdin)))' 2>/dev/null || printf '0\n'
+}
+
+space_exists() {
+  yabai -m query --spaces --space "$1" >/dev/null 2>&1
+}
+
+ensure_spaces() {
+  wanted=$1
+  count="$(space_count)"
+  case "$count" in ''|*[!0-9]*) count=0 ;; esac
+
+  while [ "$count" -lt "$wanted" ]; do
+    yabai -m space --create >/dev/null 2>&1 || break
+    sleep 0.2
+
+    new_count="$(space_count)"
+    case "$new_count" in ''|*[!0-9]*) new_count=0 ;; esac
+    [ "$new_count" -gt "$count" ] || break
+    count=$new_count
+  done
+}
+
+label_space() {
+  index=$1
+  label=$2
+
+  # Keep an existing label where it is. This makes reloads idempotent, so a
+  # display_added/display_removed re-run cannot relabel Spaces that were
+  # reordered by macOS.
+  space_exists "$label" && return 0
+  space_exists "$index" || return 0
+  yabai -m space "$index" --label "$label"
+}
+
+regex_escape() {
+  printf '%s' "$1" | /usr/bin/sed 's/[][\\.^$*+?(){}|]/\\&/g'
+}
+
+# Ensure the named workflow Spaces exist before labeling them. Space creation is
+# guarded so older yabai versions or restricted macOS setups keep loading safely.
+ensure_spaces 5
+label_space 1 chat
+label_space 2 terminal
+label_space 3 web
+label_space 4 notes
+label_space 5 default
+
+installed() {
+  app=$1
+
+  [ "$app" = "iTerm2" ] && [ -d "$YABAI_ITERM_APP" ] && return 0
+
+  # Process names that differ from the .app bundle name.
+  bundle=$app
+  case "$app" in
+    Code) bundle="Visual Studio Code" ;;
+    "Docker Desktop") bundle="Docker" ;;
+  esac
+
+  old_ifs=$IFS
+  IFS=:
+  for dir in $YABAI_APP_DIRS; do
+    if [ -d "$dir/$bundle.app" ]; then
+      IFS=$old_ifs
+      return 0
+    fi
+  done
+  IFS=$old_ifs
+
+  return 1
+}
+
+add_rules() {
+  space=$1
+  apps=$2
+
+  printf '%s\n' "$apps" | while IFS= read -r app; do
+    [ -n "$app" ] || continue
+
+    label="space-$space-$app"
+    yabai -m rule --remove "$label" 2>/dev/null || true
+
+    installed "$app" || continue
+
+    # Rules store the Space as a numeric index, so the label must resolve now.
+    # `space --create` needs the scripting addition; without it, Spaces have to
+    # be created by hand and this rule is skipped until they exist.
+    space_exists "$space" || {
+      echo "yabairc: space '$space' missing, skipping rule for $app" >&2
+      continue
+    }
+
+    # Some apps (WhatsApp) prefix their name with an invisible character such as
+    # U+200E, so tolerate leading non-alphanumeric characters in the match.
+    app_regex="^[^[:alnum:]]*$(regex_escape "$app")$"
+    yabai -m rule --add label="$label" app="$app_regex" space="$space"
+  done
+}
+
+# System panels and utilities are never tiled.
+yabai -m rule --remove "no-manage-system" 2>/dev/null || true
+yabai -m rule --add label="no-manage-system" \
+  app="^(System Settings|System Preferences|Calculator|Archive Utility|Finder|1Password)$" \
+  manage=off
+
+# Specific app mappings take precedence over the default router. Only installed
+# apps from these lists are routed; removed apps are cleaned up on reload.
+add_rules chat "$YABAI_CHAT_APPS"
+add_rules terminal "$YABAI_TERMINAL_APPS"
+add_rules web "$YABAI_WEB_APPS"
+add_rules notes "$YABAI_NOTES_APPS"
+
+# Space 5 — Default
+# Avoid a broad static default rule because it can catch dialogs, popups,
+# preferences, PiP, menu bar utilities, floating utility windows, and windows
+# yabai cannot safely manage. Instead route only normal manageable windows from
+# a window_created signal after querying the actual window properties.
+ROUTER="$YABAI_DIR/route-default-space.sh"
+yabai -m signal --remove "route-default-space" 2>/dev/null || true
+yabai -m signal --add label="route-default-space" event="window_created" action="/bin/sh \"$ROUTER\" \"\$YABAI_WINDOW_ID\""
+
+# Rules above are stored with numeric Space indexes, which shift when displays
+# come and go. Re-run this file so they are rebuilt against the current layout.
+for event in display_added display_removed; do
+  yabai -m signal --remove "reload-rules-$event" 2>/dev/null || true
+  yabai -m signal --add label="reload-rules-$event" event="$event" action="/bin/sh \"$YABAI_DIR/yabairc\""
+done
+
+# Apply rules to already-open windows on reload where yabai supports it.
+yabai -m rule --apply 2>/dev/null || true

@@ -1,0 +1,120 @@
+# skhd configuration for the Corne 42-key ZMK keyboard.
+#
+# Every window-manager action is bound to a chord + a key on the Corne's WM
+# layer, and nothing else. Focus, zoom and Space keys (TAB H J K L Z F 1-5) use
+# `ctrl + alt`; the rest use `hyper` (cmd + ctrl + alt + shift). Hold the right
+# outer thumb (Enter) for the WM layer; each key sends its chord + <key> at its
+# natural QWERTY position (corne-keyboard/config/corne.keymap, wm_layer):
+#
+#   | TAB  .    .    E    R    T    | 1    2    3    4    5    .    |
+#   | .    A    S    D    F    .    | H    J    K    L    .    .    |
+#   | .    Z    X    .    V    B    | .    M    .    .    .    .    |
+#               | .    .    .    | RET  .    WM   |
+#
+# The keyboard is the source of truth: only bind hyper + keys that exist on
+# that layer, and change the layer there first. Modes work the same way: enter
+# one with WM + M/S/E and keep holding the layer for the next key, so no bare
+# key is needed. (WM + the same key, or Esc, leaves a mode.)
+#
+# These chords do not collide with macOS defaults (plain ctrl+left/right is
+# Mission Control) or with tmux, which owns plain alt (M-hjkl, M-1..9).
+
+# Mode declarations must precede the bindings that enter them.
+:: move @
+:: swap @
+:: resize @
+
+# ---------------------------------------------------------------------------
+# WM layer: focus windows (falls through to the neighbouring display at the edge)
+# ---------------------------------------------------------------------------
+
+ctrl + alt - h : yabai -m window --focus west  || yabai -m display --focus west
+ctrl + alt - j : yabai -m window --focus south || yabai -m display --focus south
+ctrl + alt - k : yabai -m window --focus north || yabai -m display --focus north
+ctrl + alt - l : yabai -m window --focus east  || yabai -m display --focus east
+
+# Jump back to the previously focused window.
+ctrl + alt - tab : yabai -m window --focus recent
+
+# ---------------------------------------------------------------------------
+# WM layer: zoom and float
+# ---------------------------------------------------------------------------
+
+ctrl + alt - z : yabai -m window --toggle zoom-parent
+ctrl + alt - f : yabai -m window --toggle zoom-fullscreen
+
+# Toggle floating; a window that becomes floating is centered at 2/3 size.
+hyper - t : yabai -m window --toggle float --grid 6:6:1:1:4:4
+
+# ---------------------------------------------------------------------------
+# WM layer: layout actions
+# ---------------------------------------------------------------------------
+
+hyper - b : yabai -m space --balance
+hyper - r : yabai -m space --rotate 90
+hyper - x : yabai -m window --toggle split
+hyper - v : yabai -m space --mirror y-axis
+hyper - a : yabai -m space --layout stack
+hyper - d : yabai -m space --layout bsp
+
+# ---------------------------------------------------------------------------
+# WM layer: launch
+# ---------------------------------------------------------------------------
+
+hyper - return : alacritty msg create-window || open -na Alacritty
+
+# ---------------------------------------------------------------------------
+# WM layer: focus named Spaces (chat/terminal/web/notes/default)
+# `yabai -m space --focus` needs the scripting addition (SIP off), so these send
+# macOS's own "Switch to Desktop N" shortcut (ctrl + N) instead. Enable them in
+# System Settings > Keyboard > Keyboard Shortcuts > Mission Control. Desktop N
+# is Space index N, which matches the labels in yabairc.
+# ---------------------------------------------------------------------------
+
+ctrl + alt - 1 : skhd -k "ctrl - 1"   # chat
+ctrl + alt - 2 : skhd -k "ctrl - 2"   # terminal
+ctrl + alt - 3 : skhd -k "ctrl - 3"   # web
+ctrl + alt - 4 : skhd -k "ctrl - 4"   # notes
+ctrl + alt - 5 : skhd -k "ctrl - 5"   # default
+
+# ---------------------------------------------------------------------------
+# WM layer: enter temporary modes (WM + the same key leaves again)
+# ---------------------------------------------------------------------------
+
+hyper - m ; move
+hyper - s ; swap
+hyper - e ; resize
+
+# Warp/move focused window within the current Space, then return to default mode.
+move < ctrl + alt - h : yabai -m window --warp west  ; skhd -k 'escape'
+move < ctrl + alt - j : yabai -m window --warp south ; skhd -k 'escape'
+move < ctrl + alt - k : yabai -m window --warp north ; skhd -k 'escape'
+move < ctrl + alt - l : yabai -m window --warp east  ; skhd -k 'escape'
+
+# Send the focused window to a named Space without following it. Moving a window
+# to another Space may require the yabai scripting addition on current macOS.
+move < ctrl + alt - 1 : yabai -m window --space chat     ; skhd -k 'escape'
+move < ctrl + alt - 2 : yabai -m window --space terminal ; skhd -k 'escape'
+move < ctrl + alt - 3 : yabai -m window --space web      ; skhd -k 'escape'
+move < ctrl + alt - 4 : yabai -m window --space notes    ; skhd -k 'escape'
+move < ctrl + alt - 5 : yabai -m window --space default  ; skhd -k 'escape'
+move < hyper - m ; default
+move < escape ; default
+
+# Swap focused window, then return to default mode.
+swap < ctrl + alt - h : yabai -m window --swap west  ; skhd -k 'escape'
+swap < ctrl + alt - j : yabai -m window --swap south ; skhd -k 'escape'
+swap < ctrl + alt - k : yabai -m window --swap north ; skhd -k 'escape'
+swap < ctrl + alt - l : yabai -m window --swap east  ; skhd -k 'escape'
+swap < hyper - s ; default
+swap < escape ; default
+
+# Resize stays active until you leave it, so you can tap H/J/K/L repeatedly.
+# Each key grows toward its direction, or shrinks the opposite edge when already
+# at the screen boundary.
+resize < ctrl + alt - h : yabai -m window --resize left:-60:0  || yabai -m window --resize right:-60:0
+resize < ctrl + alt - j : yabai -m window --resize bottom:0:60 || yabai -m window --resize top:0:60
+resize < ctrl + alt - k : yabai -m window --resize top:0:-60   || yabai -m window --resize bottom:0:-60
+resize < ctrl + alt - l : yabai -m window --resize right:60:0  || yabai -m window --resize left:60:0
+resize < hyper - e ; default
+resize < escape ; default

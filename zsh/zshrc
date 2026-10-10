@@ -1,0 +1,75 @@
+# core/zshenv establishes these paths before interactive startup.
+typeset -g ZSH_STATE_DIR="$XDG_STATE_HOME/zsh"
+typeset -g ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
+if [[ ! -d $ZSH_STATE_DIR || ! -d $ZSH_CACHE_DIR ]]; then
+  command mkdir -p "$ZSH_STATE_DIR" "$ZSH_CACHE_DIR"
+  command chmod 700 "$ZSH_STATE_DIR" "$ZSH_CACHE_DIR"
+fi
+
+HISTFILE="$ZSH_STATE_DIR/history"
+HISTSIZE=100000
+SAVEHIST=100000
+
+setopt APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_ALL_DUPS HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE HIST_EXPIRE_DUPS_FIRST HIST_FIND_NO_DUPS
+setopt AUTOCD NOBEEP NUMERIC_GLOB_SORT
+
+if (( ! ${+ZSH_COMPDUMP} )); then
+  typeset -g ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump-$ZSH_VERSION"
+fi
+
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':omz:update' mode disabled
+
+# Register the custom widget before plugin wrappers are installed.
+source "$ZSH_CONFIG_ROOT/custom/fzf.zsh"
+
+plugins=(
+  command-not-found
+  dotenv
+  docker
+  gitignore
+  colorize
+  thefuck
+  tldr
+  tmux
+  fast-syntax-highlighting
+)
+
+ZSH_THEME=''
+
+if [[ -o interactive ]] && (( ${+commands[fzf]} )) && \
+  _zsh_init=$(command fzf --zsh 2>/dev/null); then
+  eval "$_zsh_init" 2>/dev/null
+fi
+
+if [[ -r $ZSH/oh-my-zsh.sh ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+else
+  print -u2 "zshrc: oh-my-zsh not found at $ZSH; install: sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" \"\" --unattended"
+fi
+source "$ZSH_CONFIG_ROOT/custom/aliases.zsh"
+
+# OMZ and fzf may install bindings after the custom widget is registered.
+if [[ -o interactive ]]; then
+  bindkey '^F' _fzf_file_no_hidden
+fi
+
+# The OMZ plugin owns TheFuck generation; fk only reuses its result.
+if (( ${+commands[thefuck]} )) && (( ${+aliases[fuck]} || ${+functions[fuck]} )); then
+  alias fk=fuck
+fi
+
+# Single zoxide init (the OMZ zoxide plugin is intentionally not loaded).
+if [[ -o interactive ]] && (( ${+commands[zoxide]} )); then
+  eval "$(zoxide init zsh)"
+fi
+
+if [[ -o interactive ]] && (( ${+commands[starship]} )) && \
+  _zsh_init=$(command starship init zsh 2>/dev/null); then
+  eval "$_zsh_init"
+fi
+
+unset _zsh_init
+
