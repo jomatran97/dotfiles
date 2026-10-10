@@ -18,7 +18,7 @@ nvim/*.log
 __pycache__/
 *.py[cod]
 .pytest_cache/
-# Local pi agent state
+# Local coding harness state
 .pi/
 git/config.local
 
@@ -59,9 +59,12 @@ htmlcov/
 # Multiagent required ignores
 **/settings.local.json
 **/auth.json
+.credentials.json
+**/*.credentials*
+.codex/auth.json
 **/*.local.*
 *.bak.*
-# hcom runtime / secrets (HCOM_DIR is outside the repo; keep repo mirrors safe)
+# Legacy/accidental hcom runtime guards; .multi-agent-runtime/ is the current project-local runtime
 hcom/config.toml
 hcom/*.db
 hcom/*.sqlite*

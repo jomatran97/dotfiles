@@ -1,60 +1,92 @@
 # ~/.config/alacritty/alacritty.toml
 # Source of truth: dotfiles/alacritty/alacritty.toml
+# Modern Alacritty TOML config (0.14+ layout).
+
+[general]
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+live_config_reload = true
+working_directory = "None"
 
 [env]
-# Use Alacritty's own terminfo outside tmux. tmux still sets panes to
-# tmux-256color internally, but this lets tmux detect the real client terminal.
-TERM = "alacritty"
+# Terminfo fix: this host lacks an "alacritty" terminfo entry, so TERM=alacritty
+# breaks ncurses/tmux. xterm-256color is universally available; tmux.conf
+# enables RGB for it via terminal-features.
+TERM = "xterm-256color"
 
 [window]
-# Hide native title bar/window chrome.
-decorations = "None"
-padding = { x = 8, y = 6 }
+# macOS: "Full" = normal title bar, "Buttonless" = no traffic lights,
+# "Transparent" = title bar blends with the background, "None" = no chrome.
+decorations = "Buttonless"
+opacity = 0.94
+blur = true
+padding = { x = 10, y = 8 }
 dynamic_padding = true
-opacity = 0.65
 startup_mode = "Windowed"
 option_as_alt = "Both"
+resize_increments = true
 
 [scrolling]
-history = 10000
+history = 50000
 multiplier = 3
 
 [font]
-size = 15.0
+size = 13
+
+builtin_box_drawing = true
+
+[font.offset]
+x = 0
+y = 2
 
 [font.normal]
-family = "FiraCode Nerd Font Mono"
+family = "FiraCode Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "FiraCode Nerd Font Mono"
+family = "FiraCode Nerd Font"
 style = "Bold"
 
-# The installed FiraCode Nerd Font Mono package here has Regular/Bold but no
-# Italic/Bold Italic faces, so map italic requests to installed faces to avoid
-# font loading warnings.
 [font.italic]
-family = "FiraCode Nerd Font Mono"
-style = "Regular"
+family = "FiraCode Nerd Font"
+style = "Italic"
 
 [font.bold_italic]
-family = "FiraCode Nerd Font Mono"
-style = "Bold"
-
-[colors.primary]
-background = "#1e1e2e"
-foreground = "#cdd6f4"
-
-[colors.cursor]
-text = "#1e1e2e"
-cursor = "#f5e0dc"
+family = "FiraCode Nerd Font"
+style = "Bold Italic"
 
 [cursor]
 style = { shape = "Block", blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
 unfocused_hollow = true
+thickness = 0.15
 
 [mouse]
 hide_when_typing = false
 
 [selection]
 save_to_clipboard = true
+
+[terminal]
+osc52 = "CopyPaste"
+
+# Cmd+click opens URLs and file:line paths (e.g. compiler/test output).
+[[hints.enabled]]
+command = "open"
+post_processing = true
+mouse.enabled = true
+mouse.mods = "Command"
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\\u0000-\\u001f\\u007f-\\u009f<>\"\\s{-}\\^⟨⟩`\\\\]+"
+
+[keyboard]
+bindings = [
+  # macOS-style line/word editing, shell-agnostic (readline escape sequences)
+  { key = "Left", mods = "Command", chars = "\u0001" },
+  { key = "Right", mods = "Command", chars = "\u0005" },
+  { key = "Backspace", mods = "Command", chars = "\u0015" },
+  { key = "Left", mods = "Alt", chars = "\u001bb" },
+  { key = "Right", mods = "Alt", chars = "\u001bf" },
+  # Shift+Enter inserts a newline (Claude Code, REPLs)
+  { key = "Return", mods = "Shift", chars = "\u001b\r" },
+  # Clear screen (Ctrl+L)
+  { key = "K", mods = "Command", chars = "\u000c" },
+]

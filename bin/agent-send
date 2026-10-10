@@ -1,5 +1,0 @@
-#!/bin/bash
-DOTFILES_ROOT=/Users/ryanparker/Documents/personal/code/dotfiles
-MULTI_AGENT_HOME="$DOTFILES_ROOT/multi-agent"
-export DOTFILES_ROOT MULTI_AGENT_HOME
-exec /Users/ryanparker/Documents/personal/code/dotfiles/multi-agent/tools/send_task.sh "$@"

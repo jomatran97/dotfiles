@@ -1,0 +1,247 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Modern compact one-line developer prompt: keep high-signal context only.
+add_newline = false
+command_timeout = 1000
+scan_timeout = 30
+palette = "compact"
+
+format = """
+$os\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$package\
+$nodejs\
+$bun\
+$deno\
+$python\
+$rust\
+$golang\
+$php\
+$terraform\
+$docker_context\
+$kubernetes\
+$direnv\
+$jobs\
+$status\
+$cmd_duration\
+$character"""
+
+right_format = """
+$claude_model\
+$claude_context\
+$claude_cost\
+$time"""
+
+[palettes.compact]
+blue = "#7aa2f7"
+cyan = "#7dcfff"
+green = "#9ece6a"
+purple = "#bb9af7"
+red = "#f7768e"
+yellow = "#e0af68"
+white = "#c0caf5"
+muted = "#565f89"
+
+[os]
+disabled = false
+format = "[$symbol](blue) "
+
+[os.symbols]
+Ubuntu = "󰕈"
+Artix = "󰣇"
+Arch = "󰣇"
+CachyOS = "󰣇"
+Macos = ""
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "cyan"
+repo_root_style = "bold cyan"
+truncation_length = 4
+truncation_symbol = "…/"
+truncate_to_repo = true
+
+[git_branch]
+symbol = ""
+format = "[$symbol $branch](purple) "
+
+[git_state]
+format = "([$state( $progress_current/$progress_total)](yellow)) "
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+style = "muted"
+ahead = "⇡$count"
+behind = "⇣$count"
+diverged = "⇡$ahead_count⇣$behind_count"
+staged = "+$count"
+modified = "●$count"
+untracked = "?$count"
+deleted = "✘$count"
+conflicted = "⚡$count"
+stashed = "≡$count"
+renamed = "»$count"
+
+[package]
+symbol = "pkg "
+style = "green"
+format = "[$symbol$version]($style) "
+display_private = false
+
+[nodejs]
+symbol = "node "
+format = "[$symbol$version](green) "
+
+[bun]
+symbol = "bun "
+format = "[$symbol$version](yellow) "
+
+[deno]
+symbol = "deno "
+format = "[$symbol$version](green) "
+
+[python]
+symbol = "py "
+format = "[$symbol$version( (\\($virtualenv\\)))](yellow) "
+
+[rust]
+symbol = "rs "
+format = "[$symbol$version](red) "
+
+[golang]
+symbol = "go "
+format = "[$symbol$version](cyan) "
+
+[php]
+symbol = "php "
+format = "[$symbol$version](purple) "
+
+[terraform]
+symbol = "tf "
+format = "[$symbol$workspace]($style) "
+style = "purple"
+
+[docker_context]
+symbol = "docker "
+format = "[$symbol$context]($style) "
+style = "blue"
+only_with_files = true
+detect_files = [
+  "compose.yml",
+  "compose.yaml",
+  "docker-compose.yml",
+  "docker-compose.yaml",
+  "Dockerfile",
+]
+
+[kubernetes]
+disabled = false
+symbol = "k8s "
+format = "[$symbol$context( $namespace)]($style) "
+style = "cyan"
+detect_env_vars = ["KUBECONFIG"]
+detect_files = [
+  "kubeconfig",
+  ".kubeconfig",
+  "skaffold.yaml",
+  "kustomization.yaml",
+  "Chart.yaml",
+]
+detect_folders = [".kube", "k8s", "kubernetes"]
+
+[[kubernetes.contexts]]
+context_pattern = ".*(prod|production).*"
+style = "red"
+
+[[kubernetes.contexts]]
+context_pattern = ".*(stage|staging|qa).*"
+style = "yellow"
+
+[[kubernetes.contexts]]
+context_pattern = ".*(dev|local|minikube|kind).*"
+style = "green"
+
+[direnv]
+disabled = false
+symbol = "env "
+format = "[$symbol$loaded/$allowed]($style) "
+style = "yellow"
+
+[jobs]
+symbol = "✦"
+format = "[$symbol$number]($style) "
+style = "blue"
+
+[status]
+disabled = false
+pipestatus = true
+symbol = "✘ "
+format = "[$symbol$status]($style) "
+style = "red"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "yellow"
+
+[time]
+disabled = false
+format = "[$time]($style)"
+time_format = "%R"
+style = "muted"
+
+[claude_model]
+format = "[$symbol$model]($style) "
+symbol = "ai "
+style = "bold blue"
+
+[claude_context]
+format = "[$symbol$percentage]($style) "
+symbol = "ctx "
+
+[[claude_context.display]]
+threshold = 0
+style = "bold green"
+hidden = true
+
+[[claude_context.display]]
+threshold = 30
+style = "bold green"
+hidden = false
+
+[[claude_context.display]]
+threshold = 60
+style = "bold yellow"
+hidden = false
+
+[[claude_context.display]]
+threshold = 80
+style = "bold red"
+hidden = false
+
+[claude_cost]
+format = "[$symbol$cost]($style) "
+symbol = "$"
+
+[[claude_cost.display]]
+threshold = 0
+style = "bold green"
+hidden = true
+
+[[claude_cost.display]]
+threshold = 1
+style = "bold yellow"
+hidden = false
+
+[[claude_cost.display]]
+threshold = 5
+style = "bold red"
+hidden = false
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](blue)"
