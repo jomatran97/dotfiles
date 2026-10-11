@@ -10,11 +10,11 @@ fi
 export FZF_DEFAULT_OPTS='--height=60% --layout=reverse --border=rounded --prompt="  " --pointer="❯ " --preview-window=right:65%:wrap:border-left'
 
 if (( ${+commands[bat]} )); then
-  export _FZF_PREVIEW_CMD='bat --color=always --style=plain,numbers --line-range=:500 -- {}'
+  typeset -g _FZF_PREVIEW_CMD='bat --color=always --style=plain,numbers --line-range=:500 -- {}'
 elif (( ${+commands[batcat]} )); then
-  export _FZF_PREVIEW_CMD='batcat --color=always --style=plain,numbers --line-range=:500 -- {}'
+  typeset -g _FZF_PREVIEW_CMD='batcat --color=always --style=plain,numbers --line-range=:500 -- {}'
 else
-  export _FZF_PREVIEW_CMD='cat -- {}'
+  typeset -g _FZF_PREVIEW_CMD='cat -- {}'
 fi
 export FZF_CTRL_T_OPTS="--preview '$_FZF_PREVIEW_CMD'"
 

@@ -10,7 +10,7 @@ The configuration enables:
 command-not-found dotenv docker gitignore colorize thefuck tldr tmux fast-syntax-highlighting
 ```
 
-The fzf plugin is deliberately absent because modern `fzf --zsh` integration is initialized directly. `zsh-autosuggestions` remains deliberately absent to avoid inline duplicated suggestions. `fast-syntax-highlighting` is enabled again for command coloring and must remain last so it can wrap widgets installed by earlier plugins.
+The fzf plugin is deliberately absent because modern `fzf --zsh` integration is initialized directly. `zsh-autosuggestions` is enabled and loads before `fast-syntax-highlighting`. `fast-syntax-highlighting` is enabled again for command coloring and must remain last so it can wrap widgets installed by earlier plugins.
 
 Oh My Zsh supplies built-in plugins under `$ZSH/plugins`. The third-party `fast-syntax-highlighting` plugin must be installed manually under `${ZSH_CUSTOM:-$ZSH/custom}/plugins`. Missing static plugins may cause an Oh My Zsh warning; missing tool dependencies may disable or degrade the corresponding feature. This is an intentional tradeoff for a simple, visible configuration.
 
@@ -24,7 +24,7 @@ git clone https://github.com/zdharma-continuum/fast-syntax-highlighting \
   "$custom/plugins/fast-syntax-highlighting"
 ```
 
-Do not install or enable `zsh-autosuggestions`; inline duplicated suggestions are intentionally disabled.
+`zsh-autosuggestions` is cloned from https://github.com/zsh-users/zsh-autosuggestions into `$ZSH_CUSTOM/plugins/zsh-autosuggestions`.
 
 ## Update
 

@@ -12,25 +12,40 @@ opt.showmode = false
 opt.expandtab = true
 opt.shiftwidth = 2
 opt.tabstop = 2
-opt.smartindent = true
+opt.softtabstop = -1
+opt.shiftround = true
 opt.wrap = false
+opt.linebreak = true
+opt.breakindent = true
 
 opt.ignorecase = true
 opt.smartcase = true
 opt.inccommand = "split"
 opt.splitbelow = true
 opt.splitright = true
+opt.splitkeep = "screen"
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
-opt.clipboard = "unnamedplus"
+vim.schedule(function()
+  opt.clipboard = "unnamedplus"
+end)
 opt.undofile = true
+opt.confirm = true
 opt.updatetime = 250
 opt.timeoutlen = 400
-opt.completeopt = { "menu", "menuone", "noselect" }
+opt.completeopt = { "menu", "menuone", "noselect", "fuzzy" }
+opt.pumheight = 10
+opt.mouse = "a"
+opt.smoothscroll = true
+opt.jumpoptions = "view"
+opt.virtualedit = "block"
+opt.foldlevelstart = 99
+opt.fillchars = { eob = " ", fold = " ", foldsep = " " }
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
 opt.list = true
-opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣", extends = "›", precedes = "‹" }
 
--- Keep the theme dependency-free and minimalist.
+-- Built-in fallback; the real theme is catppuccin (plugins/ui.lua).
 pcall(vim.cmd.colorscheme, "habamax")

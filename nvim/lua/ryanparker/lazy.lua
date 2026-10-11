@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   local out = vim.fn.system({
     "git",
     "clone",
@@ -23,9 +23,8 @@ require("lazy").setup({
     { import = "ryanparker.plugins" },
   },
   defaults = { lazy = true },
-  install = { colorscheme = { "habamax" } },
-  checker = { enabled = true, notify = false },
-  change_detection = { notify = false },
+  checker = { enabled = false },
+  change_detection = { enabled = false, notify = false },
   rocks = { enabled = false },
   performance = {
     rtp = {

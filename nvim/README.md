@@ -1,6 +1,6 @@
 # Minimal Neovim setup
 
-A small Lua config for your mix of **web development**, **data engineering**, and **SRE** work: Java, Python, dbt/SQL, Terraform/HCL, Bash, CloudFormation/YAML, JSON, Docker, and frontend files.
+A small Lua config for a mix of **web development**, **data engineering**, and **SRE** work: Java, Python, dbt/SQL, Terraform/HCL, Bash, CloudFormation/YAML, JSON, Docker, and frontend files.
 
 ## Research choices
 
@@ -12,8 +12,9 @@ A small Lua config for your mix of **web development**, **data engineering**, an
 ## Install host tools on macOS
 
 ```sh
-brew install neovim git curl ripgrep fd tree-sitter node python openjdk terraform shellcheck shfmt tflint cfn-lint
-python3 -m pip install --user dbt-core sqlfluff
+brew install neovim git curl ripgrep fd tree-sitter node python pipx openjdk terraform shellcheck shfmt tflint cfn-lint
+pipx install dbt-core
+pipx install sqlfluff
 ```
 
 Optional Java build tools:
@@ -22,7 +23,39 @@ Optional Java build tools:
 brew install maven gradle
 ```
 
-`tree-sitter`, `shellcheck`, and `shfmt` are installed. Still missing or not usable on this machine: a real JDK (`/usr/bin/java` is only the macOS stub), `dbt`, and `terraform` (so `terraform fmt` and the Terraform tooling won't run).
+
+## Java prerequisites
+
+jdtls needs a real JDK (the `/usr/bin/java` stub is not enough):
+
+```sh
+brew install openjdk
+export JAVA_HOME="$(brew --prefix openjdk)/libexec/openjdk.jdk/Contents/Home"
+sudo ln -sfn "$(brew --prefix openjdk)/libexec/openjdk.jdk" /Library/Java/JavaVirtualMachines/openjdk.jdk
+```
+
+Then install the language server from Neovim:
+
+```vim
+:MasonInstall jdtls
+```
+
+## Plugin layout
+
+Plugins live in `lua/ryanparker/plugins/*.lua`, one file per topic, imported by `lazy.lua`:
+
+| File | Contents |
+| --- | --- |
+| `ui.lua` | statusline, icons, which-key |
+| `navigation.lua` | oil, telescope, smart-splits |
+| `editing.lua` | autopairs, surround, plenary |
+| `git.lua` | gitsigns, diffview |
+| `lsp.lua` | mason, lspconfig, nvim-jdtls, lazydev |
+| `completion.lua` | blink.cmp, snippets, dadbod source |
+| `formatting.lua` | conform.nvim |
+| `linting.lua` | nvim-lint |
+| `treesitter.lua` | treesitter parsers |
+| `data.lua` | dbt and database tooling |
 
 ## Mason-managed tools
 
@@ -33,7 +66,7 @@ Open Neovim and run:
 :Mason
 ```
 
-Mason will install LSP servers and CLI tools such as `pyright`, `ruff`, `jdtls`, `terraformls`, `bashls`, `yamlls`, `jsonls`, `prettier`, `sqlfluff`, `shellcheck`, `shfmt`, `tflint`, and `cfn-lint` where available.
+Mason will install LSP servers and CLI tools such as `basedpyright`, `ruff`, `jdtls`, `terraformls`, `bashls`, `yamlls`, `jsonls`, `prettier`, `sqlfluff`, `shellcheck`, `shfmt`, `tflint`, and `cfn-lint` where available.
 
 ## Keymaps
 

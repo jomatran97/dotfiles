@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.have_nerd_font = true
 
 -- Disable netrw before plugins load. oil.nvim is the file browser.
 vim.g.loaded_netrw = 1

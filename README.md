@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal configuration for zsh (Oh My Zsh + Starship), alacritty, tmux, nvim, lf, yabai, skhd, and karabiner.
+Personal configuration for zsh (Oh My Zsh + Starship), alacritty, tmux, nvim, yabai, skhd, and karabiner.
 
 ## Install
 
@@ -12,4 +12,4 @@ Symlinks each config into `$HOME` / `${XDG_CONFIG_HOME:-~/.config}`. It is idemp
 
 Prerequisites: [Oh My Zsh](https://ohmyz.sh/) at `~/.oh-my-zsh` (not installed automatically), plus starship, fzf, zoxide, tmux, and a Nerd Font (FiraCode).
 
-Do not set `ZDOTDIR`; see `zsh/README.md`. Tests: `zsh zsh/tests/run.zsh`.
+Do not set `ZDOTDIR`; see `zsh/README.md`.

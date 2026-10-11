@@ -30,7 +30,7 @@ Starship reads `~/.config/starship/starship.toml` by default. A Nerd Font is rec
 
 ## Plugin and key behavior
 
-Oh My Zsh owns completion initialization. Its fzf plugin is omitted because `fzf --zsh` is initialized directly. `fast-syntax-highlighting` stays last in the static plugin list for command coloring. `zsh-autosuggestions` stays disabled so typed input is not followed by inline duplicated suggestions. Automatic Oh My Zsh updates are disabled.
+Oh My Zsh owns completion initialization. Its fzf plugin is omitted because `fzf --zsh` is initialized directly. `fast-syntax-highlighting` stays last in the static plugin list for command coloring. `zsh-autosuggestions` is enabled before it (history, then completion; accept with `→` or `End`). Automatic Oh My Zsh updates are disabled.
 
 | Key | Action |
 | --- | --- |
@@ -45,12 +45,9 @@ Oh My Zsh owns completion initialization. Its fzf plugin is omitted because `fzf
 From the repository root:
 
 ```sh
-for file in zsh/core/* zsh/custom/*.zsh zsh/zshrc zsh/tests/*.zsh; do
+for file in zsh/core/* zsh/custom/*.zsh zsh/zshrc; do
   zsh -n "$file" || exit 1
 done
-zsh zsh/tests/run.zsh
 env -i HOME="$HOME" PATH=/usr/bin:/bin TERM=xterm-256color zsh -dlic exit
 starship print-config >/dev/null
 ```
-
-The test suite uses a temporary home and a fake Oh My Zsh checkout. It performs no network access and does not modify the real home directory.

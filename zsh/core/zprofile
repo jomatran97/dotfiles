@@ -32,4 +32,3 @@ fi
 path=("$HOME/.local/bin" $path)
 # <<< Codex installer <<<
 typeset -U path PATH
-export PATH="$HOME/.local/bin:$PATH"

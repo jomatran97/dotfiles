@@ -10,3 +10,27 @@ export XDG_CONFIG_HOME XDG_CACHE_HOME XDG_DATA_HOME XDG_STATE_HOME
 : ${ZSH:="$HOME/.oh-my-zsh"}
 : ${STARSHIP_CONFIG:="$XDG_CONFIG_HOME/starship/starship.toml"}
 export ZSH_CONFIG_ROOT ZSH STARSHIP_CONFIG
+
+# Tool defaults: nvim everywhere; never override TERM (Alacritty/tmux own it).
+: ${EDITOR:=nvim}
+: ${VISUAL:=$EDITOR}
+: ${COLORTERM:=truecolor}
+export EDITOR VISUAL COLORTERM
+
+# Non-login children (skhd's `zsh -c`, tmux panes, IDE terminals) never read
+# zprofile, so append the tool dirs here. Appending keeps caller PATH priority.
+typeset -U path PATH
+for _zsh_dir in \
+  /opt/homebrew/bin /opt/homebrew/sbin \
+  "$HOME"/Library/Python/*/bin(N)
+do
+  [[ ${ZSH_DISABLE_HOMEBREW:-0} != 1 && -d $_zsh_dir ]] && path+=("$_zsh_dir")
+done
+unset _zsh_dir
+# Keg-only openjdk must precede the /usr/bin/java stub, which nvim's JDK check rejects.
+if [[ ${ZSH_DISABLE_HOMEBREW:-0} != 1 && -d /opt/homebrew/opt/openjdk/bin ]]; then
+  path=(/opt/homebrew/opt/openjdk/bin $path)
+fi
+if [[ -z ${JAVA_HOME-} && -d /opt/homebrew/opt/openjdk ]]; then
+  export JAVA_HOME=/opt/homebrew/opt/openjdk
+fi
